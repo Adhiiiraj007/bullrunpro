@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Racers</title>
+</head>
+<body>
+
+<h2>Registered Racers</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Village</th>
+        <th>Cart Number</th>
+    </tr>
+
+    <tr th:each="r : ${racers}">
+        <td th:text="${r.id}"></td>
+        <td th:text="${r.racerName}"></td>
+        <td th:text="${r.phoneNumber}"></td>
+        <td th:text="${r.village}"></td>
+        <td th:text="${r.cartNumber}"></td>
+    </tr>
+
+</table>
+
+<br>
+<a href="/registration">Register New Racer</a>
+
+</body>
+</html>

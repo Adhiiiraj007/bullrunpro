@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Racer Registration</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('/images/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .top-image {
+            margin-bottom: 20px;
+        }
+
+        .top-image img {
+            width: 200px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .form-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 350px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: #ff6600;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e65c00;
+        }
+
+        .link {
+            margin-top: 15px;
+            display: block;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- ✅ Image Above Registration Box -->
+    <div class="top-image">
+        <img src="/images/img8.jpeg" alt="Bull Image">
+    </div>
+
+    <!-- ✅ Registration Form Box -->
+    <div class="form-box">
+
+        <h2>🏁 Register Racer</h2>
+
+        <form th:action="@{/saveRacer}" th:object="${racer}" method="post">
+
+            <input type="text" th:field="*{racerName}" placeholder="Racer Name" required>
+            <input type="text" th:field="*{phoneNumber}" placeholder="Phone Number" required>
+            <input type="text" th:field="*{village}" placeholder="Village" required>
+            <input type="text" th:field="*{cartNumber}" placeholder="Cart Number" required>
+
+            <button type="submit">Register</button>
+
+        </form>
+
+        <a href="/racers" class="link">View All Racers</a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
