@@ -1,17 +1,12 @@
-# Use official OpenJDK image
-FROM eclipse-temurin:17-jdk-alpine
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
-# Set working directory
 WORKDIR /app
-
-# Copy project files
 COPY . .
+RUN mvn clean package -DskipTests
 
-# Build the application
-RUN ./mvnw clean package -DskipTests
+FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 
-# Expose port
 EXPOSE 8080
-
-# Run the jar file
-CMD ["java", "-jar", "target/bullrunpro-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app.jar"]
