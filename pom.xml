@@ -72,6 +72,14 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- RazorPay -->
+
+		<dependency>
+			<groupId>com.razorpay</groupId>
+			<artifactId>razorpay-java</artifactId>
+			<version>1.4.6</version>
+		</dependency>
+
 
 	</dependencies>
 
