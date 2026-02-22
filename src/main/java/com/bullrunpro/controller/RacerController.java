@@ -59,16 +59,20 @@ public class RacerController {
     // Create Razorpay Order
     @PostMapping("/create-order")
     @ResponseBody
-    public Order createOrder() throws Exception {
+    public String createOrder() throws Exception {
 
-        RazorpayClient client = new RazorpayClient("rzp_test_SJJU7HTqnGA6VF", "rzp_test_SJJU7HTqnGA6VF");
+        RazorpayClient client =
+                new RazorpayClient(keyId, keySecret);
 
         JSONObject options = new JSONObject();
+
         options.put("amount", 1500);
         options.put("currency", "INR");
-        options.put("receipt", "bullrunpro_receipt_1");
+        options.put("receipt", "bullrunpro_receipt");
 
-        return client.orders.create(options);
+        Order order = client.orders.create(options);
+
+        return order.toString();
     }
 
 
