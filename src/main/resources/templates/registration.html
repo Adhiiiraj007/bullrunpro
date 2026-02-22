@@ -145,7 +145,7 @@
                 </label>
             </div>
 
-            <button type="button" onclick="payNow()">
+            <button type="button" class="pay-btn" onclick="payNow()">
                 Pay ₹15 & Register
             </button>
 
@@ -207,7 +207,8 @@
             document.querySelector("input[placeholder='Participant Name']").placeholder = "स्पर्धकाचे नाव";
             document.querySelector("input[placeholder='Phone Number']").placeholder = "फोन नंबर";
             document.querySelector("input[placeholder='Village']").placeholder = "गाव";
-            document.querySelector("button").innerText = "₹15 भरा व नोंदणी करा";
+
+            document.querySelector(".pay-btn").innerText="₹15 भरा व नोंदणी करा";
             document.querySelector(".link").innerText = "नोंदणीकृत स्पर्धक पहा";
         } else {
             document.querySelector("h2").innerText = "Event Registration";
@@ -215,7 +216,8 @@
             document.querySelector("input[placeholder='स्पर्धकाचे नाव']").placeholder = "Participant Name";
             document.querySelector("input[placeholder='फोन नंबर']").placeholder = "Phone Number";
             document.querySelector("input[placeholder='गाव']").placeholder = "Village";
-            document.querySelector("button").innerText = "Pay ₹15 & Register";
+
+            document.querySelector(".pay-btn").innerText="Pay ₹15 & Register";
             document.querySelector(".link").innerText = "View Registered Participants";
         }
     }
