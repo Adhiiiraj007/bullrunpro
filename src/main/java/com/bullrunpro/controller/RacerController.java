@@ -61,9 +61,9 @@ public class RacerController {
         RazorpayClient client = new RazorpayClient(keyId, keySecret);
 
         JSONObject options = new JSONObject();
-        options.put("amount", amount * 100);
+        options.put("amount", 15 * 100);
         options.put("currency", "INR");
-        options.put("receipt", "txn_123456");
+        options.put("receipt", "bullrunpro_receipt_1");
 
         Order order = client.orders.create(options);
 
