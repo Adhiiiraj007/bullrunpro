@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Racer Registration</title>
+    <title>Sports Event Registration | BullRunPro</title>
 
     <style>
         body {
@@ -16,7 +16,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .top-image {
@@ -29,12 +30,22 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
 
+        .info-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            border-radius: 10px;
+            width: 400px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: left;
+        }
+
         .form-box {
             background: rgba(255, 255, 255, 0.95);
             padding: 30px 40px;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            width: 350px;
+            width: 400px;
             text-align: center;
         }
 
@@ -69,6 +80,12 @@
             color: #333;
             font-weight: bold;
         }
+
+        .terms {
+            font-size: 13px;
+            margin-top: 10px;
+            text-align: left;
+        }
     </style>
 </head>
 
@@ -76,28 +93,57 @@
 
 <div class="container">
 
-    <!-- ✅ Image Above Registration Box -->
+    <!-- Event Image -->
     <div class="top-image">
-        <img src="/images/img8.jpeg" alt="Bull Image">
+        <img src="/images/img8.jpeg" alt="Event Image">
     </div>
 
-    <!-- ✅ Registration Form Box -->
+    <!-- Compliance Info Section -->
+    <div class="info-box">
+        <h3>About This Event</h3>
+        <p>
+            BullRunPro is an online sports event management platform.
+            The registration fee collected is strictly for:
+        </p>
+        <ul>
+            <li>Event participation entry</li>
+            <li>On-ground event management services</li>
+            <li>Participant insurance coverage</li>
+            <li>Safety and administrative arrangements</li>
+        </ul>
+        <p>
+            This platform does NOT support gambling, betting,
+            or any wagering-based activities.
+        </p>
+    </div>
+
+    <!-- Registration Form -->
     <div class="form-box">
 
-        <h2>🏁 Register Racer</h2>
+        <h2>Event Registration</h2>
 
         <form id="registrationForm" th:action="@{/saveRacer}" th:object="${racer}" method="post">
 
-            <input type="text" th:field="*{racerName}" placeholder="Racer Name" required>
+            <input type="text" th:field="*{racerName}" placeholder="Participant Name" required>
             <input type="text" th:field="*{phoneNumber}" placeholder="Phone Number" required>
             <input type="text" th:field="*{village}" placeholder="Village" required>
-            <input type="text" th:field="*{cartNumber}" placeholder="Cart Number" required>
+            <input type="text" th:field="*{cartNumber}" placeholder="Participant ID / Cart Number" required>
+
+            <!-- Terms & Conditions Checkbox -->
+            <div class="terms">
+                <label>
+                    <input type="checkbox" id="agreeTerms" required>
+                    I agree that this payment is for event registration,
+                    management services, and participant insurance coverage only.
+                    I accept the Terms & Conditions.
+                </label>
+            </div>
 
             <button type="button" onclick="payNow()">Pay ₹5 & Register</button>
 
         </form>
 
-        <a href="/racers" class="link">View All Racers</a>
+        <a href="/racers" class="link">View Registered Participants</a>
 
     </div>
 
@@ -109,18 +155,24 @@
 <script>
     function payNow() {
 
+        if (!document.getElementById("agreeTerms").checked) {
+            alert("Please accept Terms & Conditions before proceeding.");
+            return;
+        }
+
         fetch('/create-order?amount=500', { method: 'POST' })
         .then(response => response.json())
         .then(order => {
 
             var options = {
-                "key": "YOUR_RAZORPAY_KEY_ID",   // Replace with your key
+                "key": "YOUR_RAZORPAY_KEY_ID",
                 "amount": order.amount,
                 "currency": "INR",
                 "order_id": order.id,
+                "name": "BullRunPro Event Registration",
+                "description": "Sports Event Registration & Insurance Fee",
 
                 "handler": function (response) {
-                    // Payment successful
                     alert("Payment Successful!");
                     document.getElementById("registrationForm").submit();
                 },
