@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Group Management</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f4f6f9;
+            padding: 30px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 8px;
+            width: 200px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #1e88e5;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1565c0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .publish-btn {
+            background-color: green;
+        }
+
+        .publish-btn:hover {
+            background-color: darkgreen;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Generate Groups</h2>
+
+<form th:action="@{/admin/generate-groups}" method="post">
+    <input type="number" name="groupSize"
+           placeholder="Enter group size"
+           min="2"
+           required>
+    <button type="submit">Generate Groups</button>
+</form>
+
+<!-- ✅ Publish Button -->
+<form th:action="@{/admin/publish-groups}" method="post">
+    <button type="submit" class="publish-btn">
+        Publish Groups To Users
+    </button>
+</form>
+
+<hr>
+
+<h2>Grouped Participants</h2>
+
+<div th:if="${#lists.isEmpty(racers)}">
+    <p>No groups generated yet.</p>
+</div>
+
+<table th:if="${!#lists.isEmpty(racers)}" border="1">
+    <tr>
+        <th>Group</th>
+        <th>Name</th>
+        <th>Village</th>
+    </tr>
+
+    <tr th:each="r : ${racers}">
+        <td th:text="${r.groupNumber}"></td>
+        <td th:text="${r.racerName}"></td>
+        <td th:text="${r.village}"></td>
+    </tr>
+</table>
+
+<br>
+<a th:href="@{/admin/dashboard}">
+    ← Back to Dashboard
+</a>
+
+</body>
+</html>

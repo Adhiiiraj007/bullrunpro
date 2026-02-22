@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Race Groups</title>
+</head>
+<body>
+
+<h2>Official Race Groups</h2>
+
+<table border="1">
+    <tr>
+        <th>Group</th>
+        <th>Name</th>
+        <th>Village</th>
+    </tr>
+
+    <tr th:each="r : ${racers}">
+        <td th:text="${r.groupNumber}"></td>
+        <td th:text="${r.racerName}"></td>
+        <td th:text="${r.village}"></td>
+    </tr>
+
+</table>
+
+<br>
+<a th:href="@{/}">Back Home</a>
+
+</body>
+</html>

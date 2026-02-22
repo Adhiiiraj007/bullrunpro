@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+</head>
+<body style="text-align:center; margin-top:50px;">
+
+<h2>Admin Dashboard</h2>
+
+<h3>Total Registered Racers: <span th:text="${totalRacers}"></span></h3>
+
+<br>
+<a th:href="@{/admin/racers}">View All Racers</a>
+<br><br>
+<a th:href="@{/logout}">Logout</a>
+
+</body>
+</html>

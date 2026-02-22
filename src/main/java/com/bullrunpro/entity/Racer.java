@@ -18,6 +18,12 @@ public class Racer {
 
     private boolean withdrawn = false;
 
+    // ✅ NEW: Group Number
+    private Integer groupNumber;
+
+    // ✅ NEW: Group publish control (admin controlled)
+    private boolean groupsPublished = false;
+
     public Racer() {}
 
     // Auto-generate Registration Number
@@ -27,6 +33,8 @@ public class Racer {
             this.registrationNumber = "BRP-" + System.currentTimeMillis();
         }
     }
+
+    // ---------------- GETTERS & SETTERS ----------------
 
     public Long getId() { return id; }
 
@@ -43,4 +51,14 @@ public class Racer {
 
     public boolean isWithdrawn() { return withdrawn; }
     public void setWithdrawn(boolean withdrawn) { this.withdrawn = withdrawn; }
+
+    // ✅ Group Number
+    public Integer getGroupNumber() { return groupNumber; }
+    public void setGroupNumber(Integer groupNumber) { this.groupNumber = groupNumber; }
+
+    // ✅ Publish Control
+    public boolean isGroupsPublished() { return groupsPublished; }
+    public void setGroupsPublished(boolean groupsPublished) {
+        this.groupsPublished = groupsPublished;
+    }
 }
