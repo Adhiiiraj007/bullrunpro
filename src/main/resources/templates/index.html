@@ -249,22 +249,62 @@
 
 
 <script>
-    function switchToMarathi() {
-        document.querySelector("h1").innerText = "भव्य बैलगाडी शर्यतीत आपले स्वागत आहे";
-        document.querySelector(".hero p").innerText =
-            "स्पर्धकांची नोंदणी करा, गट तयार करा आणि शर्यती व्यवस्थापित करा.";
-        document.querySelector(".about h2").innerText = "कार्यक्रमाविषयी";
-        document.querySelector(".about p").innerText =
-            "पारंपरिक बैलगाडी शर्यत ही ग्रामीण संस्कृतीचा एक भाग आहे.";
-    }
+    const translations = {
+        en: {
+            header: "|| TRADITIONAL OX CART RACING EVENT ||",
+            heroTitle: "Welcome to the Grand Ox Cart Race",
+            heroDesc: "Register racers, create automatic groups, and manage races easily.",
+            registerBtn: "Register Now",
+            aboutTitle: "About the Event",
+            aboutDesc: "Traditional ox cart racing is a historic rural sport celebrating village culture, strength, and speed.",
+            highlightTitle: "Event Highlights",
+            easyReg: "Easy Registration",
+            easyRegDesc: "Quick racer entry with simple digital forms.",
+            autoGroup: "Auto Grouping",
+            autoGroupDesc: "Smart fair grouping created instantly.",
+            liveMgmt: "Live Management",
+            liveMgmtDesc: "Organize races smoothly using technology.",
+            galleryTitle: "Race Gallery",
+            contactTitle: "Contact Information",
+            goRegister: "Go to Registration"
+        },
+        mr: {
+            header: "|| पारंपरिक बैलगाडी शर्यत कार्यक्रम ||",
+            heroTitle: "भव्य बैलगाडी शर्यतीत आपले स्वागत आहे",
+            heroDesc: "स्पर्धकांची नोंदणी करा, गट तयार करा आणि शर्यती सहज व्यवस्थापित करा.",
+            registerBtn: "आता नोंदणी करा",
+            aboutTitle: "कार्यक्रमाविषयी",
+            aboutDesc: "पारंपरिक बैलगाडी शर्यत ही ग्रामीण संस्कृती, ताकद आणि वेग यांचा उत्सव आहे.",
+            highlightTitle: "कार्यक्रमाची वैशिष्ट्ये",
+            easyReg: "सोपे नोंदणी",
+            easyRegDesc: "डिजिटल फॉर्मद्वारे जलद नोंदणी.",
+            autoGroup: "स्वयंचलित गट",
+            autoGroupDesc: "न्याय्य गट तयार होतात.",
+            liveMgmt: "थेट व्यवस्थापन",
+            liveMgmtDesc: "तंत्रज्ञानाद्वारे शर्यती सुरळीत व्यवस्थापित करा.",
+            galleryTitle: "शर्यत गॅलरी",
+            contactTitle: "संपर्क माहिती",
+            goRegister: "नोंदणी पृष्ठावर जा"
+        }
+    };
 
-    function switchToEnglish() {
-        document.querySelector("h1").innerText = "Welcome to the Grand Ox Cart Race";
-        document.querySelector(".hero p").innerText =
-            "Register racers, create automatic groups, and manage races easily.";
-        document.querySelector(".about h2").innerText = "About the Event";
-        document.querySelector(".about p").innerText =
-            "Traditional ox cart racing is a historic rural sport celebrating village culture, strength, and speed.";
+    function switchLanguage(lang) {
+        document.querySelector("header").childNodes[0].textContent = translations[lang].header;
+        document.querySelector(".hero h1").innerText = translations[lang].heroTitle;
+        document.querySelector(".hero p").innerText = translations[lang].heroDesc;
+        document.querySelector(".hero button").innerText = translations[lang].registerBtn;
+        document.querySelector(".about h2").innerText = translations[lang].aboutTitle;
+        document.querySelector(".about p").innerText = translations[lang].aboutDesc;
+        document.querySelectorAll("section h2")[1].innerText = translations[lang].highlightTitle;
+        document.querySelectorAll(".card h3")[0].innerText = translations[lang].easyReg;
+        document.querySelectorAll(".card p")[0].innerText = translations[lang].easyRegDesc;
+        document.querySelectorAll(".card h3")[1].innerText = translations[lang].autoGroup;
+        document.querySelectorAll(".card p")[1].innerText = translations[lang].autoGroupDesc;
+        document.querySelectorAll(".card h3")[2].innerText = translations[lang].liveMgmt;
+        document.querySelectorAll(".card p")[2].innerText = translations[lang].liveMgmtDesc;
+        document.querySelectorAll("section h2")[2].innerText = translations[lang].galleryTitle;
+        document.querySelector(".contact h2").innerText = translations[lang].contactTitle;
+        document.querySelector(".register-btn").innerText = translations[lang].goRegister;
     }
 </script>
 

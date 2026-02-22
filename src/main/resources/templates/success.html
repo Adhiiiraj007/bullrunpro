@@ -4,8 +4,26 @@
     <title>Success</title>
 </head>
 <body>
-<h2>Registration Successful!</h2>
-<a href="/">Go Home</a>
+
+<div style="text-align:right;">
+    <button onclick="switchLanguage('en')">English</button>
+    <button onclick="switchLanguage('mr')">मराठी</button>
+</div>
+
+<h2 id="msg">Registration Successful!</h2>
+<a href="/" id="homeLink">Go Home</a>
+
+<script>
+    function switchLanguage(lang){
+        if(lang==='mr'){
+            document.getElementById("msg").innerText="नोंदणी यशस्वी झाली!";
+            document.getElementById("homeLink").innerText="मुख्यपृष्ठावर जा";
+        }else{
+            document.getElementById("msg").innerText="Registration Successful!";
+            document.getElementById("homeLink").innerText="Go Home";
+        }
+    }
+</script>
+
 </body>
 </html>
-

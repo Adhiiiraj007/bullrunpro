@@ -3,6 +3,11 @@
 <head>
     <title>Sports Event Registration | BullRunPro</title>
 
+    <div style="text-align:right; padding:10px;">
+        <button onclick="switchLanguage('en')">English</button>
+        <button onclick="switchLanguage('mr')">मराठी</button>
+    </div>
+
     <style>
         body {
             margin: 0;
@@ -198,5 +203,29 @@
         this.value = this.value.replace(/[^0-9]/g, '');
     });
 </script>
+
+<script>
+    function switchLanguage(lang) {
+
+        if(lang === 'mr') {
+            document.querySelector("h2").innerText = "कार्यक्रम नोंदणी";
+            document.querySelector(".info-box h3").innerText = "कार्यक्रमाविषयी";
+            document.querySelector("input[placeholder='Participant Name']").placeholder = "स्पर्धकाचे नाव";
+            document.querySelector("input[placeholder='Phone Number']").placeholder = "फोन नंबर";
+            document.querySelector("input[placeholder='Village']").placeholder = "गाव";
+            document.querySelector("button").innerText = "₹5 भरा व नोंदणी करा";
+            document.querySelector(".link").innerText = "नोंदणीकृत स्पर्धक पहा";
+        } else {
+            document.querySelector("h2").innerText = "Event Registration";
+            document.querySelector(".info-box h3").innerText = "About This Event";
+            document.querySelector("input[placeholder='स्पर्धकाचे नाव']").placeholder = "Participant Name";
+            document.querySelector("input[placeholder='फोन नंबर']").placeholder = "Phone Number";
+            document.querySelector("input[placeholder='गाव']").placeholder = "Village";
+            document.querySelector("button").innerText = "Pay ₹5 & Register";
+            document.querySelector(".link").innerText = "View Registered Participants";
+        }
+    }
+</script>
+
 </body>
 </html>
