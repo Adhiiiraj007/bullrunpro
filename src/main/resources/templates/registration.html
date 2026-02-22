@@ -5,8 +5,8 @@
 
     <!-- Language Switch -->
     <div style="position:absolute; right:20px; top:18px;">
-        <button onclick="switchLanguage('en')">English</button>
-        <button onclick="switchLanguage('mr')">मराठी</button>
+        <button type="button" onclick="switchLanguage('en')">English</button>
+        <button type="button" onclick="switchLanguage('mr')">मराठी</button>
     </div>
 
     <style>
@@ -60,7 +60,7 @@
             border: 1px solid #ccc;
         }
 
-        button {
+        button.pay-btn {
             width: 100%;
             padding: 10px;
             margin-top: 15px;
@@ -72,7 +72,7 @@
             cursor: pointer;
         }
 
-        button:hover {
+        button.pay-btn:hover {
             background-color: #e65c00;
         }
 
@@ -96,28 +96,25 @@
 
 <div class="container">
 
-    <!-- Event Image -->
     <div class="top-image">
         <img src="/images/img8.jpeg" alt="Event Image">
     </div>
 
-    <!-- Info Section -->
     <div class="info-box">
-        <h3>About This Event</h3>
-        <p>
+        <h3 id="aboutTitle">About This Event</h3>
+        <p id="aboutText">
             BullRunPro is an online sports event management platform.
             The registration fee collected is strictly for event participation,
             management services, and insurance coverage.
         </p>
-        <p>
+        <p id="noteText">
             This platform does NOT support gambling or betting activities.
         </p>
     </div>
 
-    <!-- Registration Form -->
     <div class="form-box">
 
-        <h2>Event Registration</h2>
+        <h2 id="formTitle">Event Registration</h2>
 
         <form id="registrationForm"
               th:action="@{/saveRacer}"
@@ -125,44 +122,70 @@
               method="post">
 
             <input type="text" th:field="*{racerName}"
-                   placeholder="Participant Name" required>
+                   id="racerName"
+                   placeholder="Participant Name"
+                   required>
 
             <input type="tel"
                    th:field="*{phoneNumber}"
+                   id="phoneNumber"
                    placeholder="Phone Number"
                    pattern="[0-9]{10}"
                    maxlength="10"
                    required>
 
             <input type="text" th:field="*{village}"
-                   placeholder="Village" required>
+                   id="village"
+                   placeholder="Village"
+                   required>
 
             <div class="terms">
                 <label>
-                    <input type="checkbox" required>
+                    <input type="checkbox" id="agreeTerms" required>
+                    <span id="termsText">
                     I agree that this payment is for event registration
                     and management services only.
+                    </span>
                 </label>
             </div>
 
-            <button type="button" onclick="payNow()">
+            <button type="button" class="pay-btn" onclick="payNow()">
                 Pay ₹15 & Register
             </button>
 
         </form>
 
-        <a href="/racers" class="link">
+        <a href="/racers" class="link" id="viewLink">
             View Registered Participants
         </a>
 
     </div>
 </div>
 
-<!-- Razorpay Script -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
     function payNow() {
+
+        let name = document.getElementById("racerName").value.trim();
+        let phone = document.getElementById("phoneNumber").value.trim();
+        let village = document.getElementById("village").value.trim();
+        let terms = document.getElementById("agreeTerms").checked;
+
+        if(name === "" || phone === "" || village === "") {
+            alert("Please fill all fields before payment.");
+            return;
+        }
+
+        if(phone.length !== 10) {
+            alert("Phone number must be exactly 10 digits.");
+            return;
+        }
+
+        if(!terms) {
+            alert("Please accept terms before payment.");
+            return;
+        }
 
         fetch("/create-order", {
             method: "POST"
@@ -178,8 +201,6 @@
                 "description": "Registration Fee",
                 "order_id": order.id,
                 "handler": function (response) {
-
-                    // Submit form after successful payment
                     document.getElementById("registrationForm").submit();
                 },
                 "theme": {
@@ -194,7 +215,7 @@
 </script>
 
 <script>
-    document.querySelector("input[name='phoneNumber']")
+    document.getElementById("phoneNumber")
     .addEventListener("input", function() {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
@@ -204,21 +225,42 @@
     function switchLanguage(lang) {
 
         if(lang === 'mr') {
-            document.querySelector("h2").innerText = "कार्यक्रम नोंदणी";
-            document.querySelector(".info-box h3").innerText = "कार्यक्रमाविषयी";
-            document.querySelector("input[placeholder='Participant Name']").placeholder = "स्पर्धकाचे नाव";
-            document.querySelector("input[placeholder='Phone Number']").placeholder = "फोन नंबर";
-            document.querySelector("input[placeholder='Village']").placeholder = "गाव";
-            document.querySelector("button").innerText = "₹15 भरा व नोंदणी करा";
-            document.querySelector(".link").innerText = "नोंदणीकृत स्पर्धक पहा";
+
+            document.getElementById("formTitle").innerText = "कार्यक्रम नोंदणी";
+            document.getElementById("aboutTitle").innerText = "कार्यक्रमाविषयी";
+            document.getElementById("aboutText").innerText =
+            "BullRunPro हे ऑनलाइन क्रीडा स्पर्धा व्यवस्थापन व्यासपीठ आहे.";
+            document.getElementById("noteText").innerText =
+            "ही वेबसाईट जुगार किंवा बेटिंगला समर्थन करत नाही.";
+
+            document.getElementById("racerName").placeholder = "स्पर्धकाचे नाव";
+            document.getElementById("phoneNumber").placeholder = "फोन नंबर";
+            document.getElementById("village").placeholder = "गाव";
+
+            document.querySelector(".pay-btn").innerText = "₹15 भरा व नोंदणी करा";
+            document.getElementById("viewLink").innerText = "नोंदणीकृत स्पर्धक पहा";
+
+            document.getElementById("termsText").innerText =
+            "मी सहमत आहे की ही रक्कम फक्त कार्यक्रम नोंदणी व व्यवस्थापनासाठी आहे.";
+
         } else {
-            document.querySelector("h2").innerText = "Event Registration";
-            document.querySelector(".info-box h3").innerText = "About This Event";
-            document.querySelector("input[placeholder='स्पर्धकाचे नाव']").placeholder = "Participant Name";
-            document.querySelector("input[placeholder='फोन नंबर']").placeholder = "Phone Number";
-            document.querySelector("input[placeholder='गाव']").placeholder = "Village";
-            document.querySelector("button").innerText = "Pay ₹15 & Register";
-            document.querySelector(".link").innerText = "View Registered Participants";
+
+            document.getElementById("formTitle").innerText = "Event Registration";
+            document.getElementById("aboutTitle").innerText = "About This Event";
+            document.getElementById("aboutText").innerText =
+            "BullRunPro is an online sports event management platform.";
+            document.getElementById("noteText").innerText =
+            "This platform does NOT support gambling or betting activities.";
+
+            document.getElementById("racerName").placeholder = "Participant Name";
+            document.getElementById("phoneNumber").placeholder = "Phone Number";
+            document.getElementById("village").placeholder = "Village";
+
+            document.querySelector(".pay-btn").innerText = "Pay ₹15 & Register";
+            document.getElementById("viewLink").innerText = "View Registered Participants";
+
+            document.getElementById("termsText").innerText =
+            "I agree that this payment is for event registration and management services only.";
         }
     }
 </script>
