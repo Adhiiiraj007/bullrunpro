@@ -1,54 +1,182 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>All Racers</title>
+    <title>Registered Racers | BullRunPro</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff6600, #ff9966);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff6600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th {
+            background-color: #ff6600;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #fff3e6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            background-color: #ff6600;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #e65c00;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lang-btn button {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .lang-btn button:hover {
+            opacity: 0.8;
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        @media(max-width: 768px){
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            th {
+                display: none;
+            }
+
+            tr {
+                margin-bottom: 15px;
+                background: #fff3e6;
+                padding: 10px;
+                border-radius: 10px;
+            }
+
+            td {
+                text-align: left;
+                padding: 6px 10px;
+            }
+
+            td::before {
+                font-weight: bold;
+                display: block;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<h2>Registered Racers</h2>
+<div class="container">
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Registration Number</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Village</th>
-    </tr>
+    <div class="top-bar">
+        <h2 id="pageTitle">Registered Racers</h2>
 
-    <tr th:each="r : ${racers}">
-        <td th:text="${r.id}"></td>
-        <td th:text="${r.registrationNumber}"></td>
-        <td th:text="${r.racerName}"></td>
-        <td th:text="${r.phoneNumber}"></td>
-        <td th:text="${r.village}"></td>
-    </tr>
-</table>
+        <div class="lang-btn">
+            <button onclick="switchLanguage('en')">English</button>
+            <button onclick="switchLanguage('mr')">मराठी</button>
+        </div>
+    </div>
 
-<br>
-<a href="/registration">Register New Racer</a>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th id="regHead">Registration Number</th>
+            <th id="nameHead">Name</th>
+            <th id="phoneHead">Phone</th>
+            <th id="villageHead">Village</th>
+        </tr>
+        </thead>
 
-<div style="text-align:right;">
-    <button onclick="switchLanguage('en')">English</button>
-    <button onclick="switchLanguage('mr')">मराठी</button>
+        <tbody>
+        <tr th:each="r : ${racers}">
+            <td th:text="${r.id}"></td>
+            <td th:text="${r.registrationNumber}"></td>
+            <td th:text="${r.racerName}"></td>
+            <td th:text="${r.phoneNumber}"></td>
+            <td th:text="${r.village}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="footer-link">
+        <a href="/registration" class="btn" id="registerBtn">
+            Register New Racer
+        </a>
+    </div>
+
 </div>
 
 <script>
     function switchLanguage(lang){
+
         if(lang==='mr'){
-            document.querySelector("h2").innerText="नोंदणीकृत स्पर्धक";
-            document.querySelectorAll("th")[1].innerText="नोंदणी क्रमांक";
-            document.querySelectorAll("th")[2].innerText="नाव";
-            document.querySelectorAll("th")[3].innerText="फोन";
-            document.querySelectorAll("th")[4].innerText="गाव";
-            document.querySelector("a").innerText="नवीन नोंदणी करा";
+            document.getElementById("pageTitle").innerText="नोंदणीकृत स्पर्धक";
+            document.getElementById("regHead").innerText="नोंदणी क्रमांक";
+            document.getElementById("nameHead").innerText="नाव";
+            document.getElementById("phoneHead").innerText="फोन";
+            document.getElementById("villageHead").innerText="गाव";
+            document.getElementById("registerBtn").innerText="नवीन नोंदणी करा";
         }else{
-            document.querySelector("h2").innerText="Registered Racers";
-            document.querySelectorAll("th")[1].innerText="Registration Number";
-            document.querySelectorAll("th")[2].innerText="Name";
-            document.querySelectorAll("th")[3].innerText="Phone";
-            document.querySelectorAll("th")[4].innerText="Village";
-            document.querySelector("a").innerText="Register New Racer";
+            document.getElementById("pageTitle").innerText="Registered Racers";
+            document.getElementById("regHead").innerText="Registration Number";
+            document.getElementById("nameHead").innerText="Name";
+            document.getElementById("phoneHead").innerText="Phone";
+            document.getElementById("villageHead").innerText="Village";
+            document.getElementById("registerBtn").innerText="Register New Racer";
         }
     }
 </script>
