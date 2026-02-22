@@ -58,7 +58,7 @@ public class RacerController {
     @ResponseBody
     public Order createOrder() throws Exception {
 
-        RazorpayClient client = new RazorpayClient(keyId, keySecret);
+        RazorpayClient client = new RazorpayClient("rzp_test_SJJU7HTqnGA6VF", "rzp_test_SJJU7HTqnGA6VF");
 
         JSONObject options = new JSONObject();
         options.put("amount", 1500);
