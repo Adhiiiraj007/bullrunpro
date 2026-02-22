@@ -3,7 +3,7 @@
 <head>
     <title>Sports Event Registration | BullRunPro</title>
 
-
+    <!-- Language Switch -->
     <div style="position:absolute; right:20px; top:18px;">
         <button onclick="switchLanguage('en')">English</button>
         <button onclick="switchLanguage('mr')">मराठी</button>
@@ -26,14 +26,11 @@
             padding: 20px;
         }
 
-        .top-image {
-            margin-bottom: 20px;
-        }
-
         .top-image img {
             width: 200px;
             border-radius: 15px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            margin-bottom: 20px;
         }
 
         .info-box {
@@ -104,22 +101,16 @@
         <img src="/images/img8.jpeg" alt="Event Image">
     </div>
 
-    <!-- Compliance Info Section -->
+    <!-- Info Section -->
     <div class="info-box">
         <h3>About This Event</h3>
         <p>
             BullRunPro is an online sports event management platform.
-            The registration fee collected is strictly for:
+            The registration fee collected is strictly for event participation,
+            management services, and insurance coverage.
         </p>
-        <ul>
-            <li>Event participation entry</li>
-            <li>On-ground event management services</li>
-            <li>Participant insurance coverage</li>
-            <li>Safety and administrative arrangements</li>
-        </ul>
         <p>
-            This platform does NOT support gambling, betting,
-            or any wagering-based activities.
+            This platform does NOT support gambling or betting activities.
         </p>
     </div>
 
@@ -128,61 +119,77 @@
 
         <h2>Event Registration</h2>
 
-        <form id="registrationForm" th:action="@{/saveRacer}" th:object="${racer}" method="post">
+        <form id="registrationForm"
+              th:action="@{/saveRacer}"
+              th:object="${racer}"
+              method="post">
 
-            <input type="text" th:field="*{racerName}" placeholder="Participant Name" required>
+            <input type="text" th:field="*{racerName}"
+                   placeholder="Participant Name" required>
+
             <input type="tel"
-                   name="phoneNumber"
+                   th:field="*{phoneNumber}"
                    placeholder="Phone Number"
                    pattern="[0-9]{10}"
                    maxlength="10"
                    required>
-            <input type="text" th:field="*{village}" placeholder="Village" required>
 
-            <!-- Terms & Conditions Checkbox -->
+            <input type="text" th:field="*{village}"
+                   placeholder="Village" required>
+
             <div class="terms">
                 <label>
-                    <input type="checkbox" id="agreeTerms" required>
-                    I agree that this payment is for event registration,
-                    management services, and participant insurance coverage only.
-                    I accept the Terms & Conditions.
+                    <input type="checkbox" required>
+                    I agree that this payment is for event registration
+                    and management services only.
                 </label>
             </div>
 
-            <button type="button" onclick="payNow()">Pay ₹5 & Register</button>
+            <button type="button" onclick="payNow()">
+                Pay ₹15 & Register
+            </button>
 
         </form>
 
-        <a href="/racers" class="link">View Registered Participants</a>
+        <a href="/racers" class="link">
+            View Registered Participants
+        </a>
 
     </div>
-
 </div>
 
-
+<!-- Razorpay Script -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
-    function payNow(orderId) {
+    function payNow() {
 
-        var options = {
-            "key": "rzp_test_SIxdzolNrkEjuC",   // your test key
-            "amount": 1500,            // ✅ 15 rupees
-            "currency": "INR",
-            "name": "Bull Run Pro",
-            "description": "Registration Fee",
-            "order_id": orderId,
-            "handler": function (response){
-                alert("Payment Successful!");
-                window.location.href = "/registration";
-            },
-            "theme": {
-                "color": "#ff6600"
-            }
-        };
+        fetch("/create-order", {
+            method: "POST"
+        })
+        .then(response => response.json())
+        .then(order => {
 
-        var rzp = new Razorpay(options);
-        rzp.open();
+            var options = {
+                "key": "rzp_test_SIxdzolNrkEjuC",
+                "amount": order.amount,
+                "currency": "INR",
+                "name": "Bull Run Pro",
+                "description": "Registration Fee",
+                "order_id": order.id,
+                "handler": function (response) {
+
+                    // Submit form after successful payment
+                    document.getElementById("registrationForm").submit();
+                },
+                "theme": {
+                    "color": "#ff6600"
+                }
+            };
+
+            var rzp = new Razorpay(options);
+            rzp.open();
+        });
     }
 </script>
 
@@ -202,7 +209,7 @@
             document.querySelector("input[placeholder='Participant Name']").placeholder = "स्पर्धकाचे नाव";
             document.querySelector("input[placeholder='Phone Number']").placeholder = "फोन नंबर";
             document.querySelector("input[placeholder='Village']").placeholder = "गाव";
-            document.querySelector("button").innerText = "₹5 भरा व नोंदणी करा";
+            document.querySelector("button").innerText = "₹15 भरा व नोंदणी करा";
             document.querySelector(".link").innerText = "नोंदणीकृत स्पर्धक पहा";
         } else {
             document.querySelector("h2").innerText = "Event Registration";
@@ -210,7 +217,7 @@
             document.querySelector("input[placeholder='स्पर्धकाचे नाव']").placeholder = "Participant Name";
             document.querySelector("input[placeholder='फोन नंबर']").placeholder = "Phone Number";
             document.querySelector("input[placeholder='गाव']").placeholder = "Village";
-            document.querySelector("button").innerText = "Pay ₹5 & Register";
+            document.querySelector("button").innerText = "Pay ₹15 & Register";
             document.querySelector(".link").innerText = "View Registered Participants";
         }
     }
