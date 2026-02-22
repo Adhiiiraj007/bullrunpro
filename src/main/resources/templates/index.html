@@ -168,7 +168,14 @@
 
 <body>
 
-<header>|| TRADITIONAL OX CART RACING EVENT  ||</header>
+<header>
+    || TRADITIONAL OX CART RACING EVENT  ||
+
+    <div style="position:absolute; right:20px; top:18px;">
+        <button onclick="switchToEnglish()" style="padding:6px 10px;">English</button>
+        <button onclick="switchToMarathi()" style="padding:6px 10px;">मराठी</button>
+    </div>
+</header>
 
 <!-- HERO -->
 <div class="hero">
@@ -239,6 +246,27 @@
         <button class="register-btn">Go to Registration</button>
     </a>
 </footer>
+
+
+<script>
+    function switchToMarathi() {
+        document.querySelector("h1").innerText = "भव्य बैलगाडी शर्यतीत आपले स्वागत आहे";
+        document.querySelector(".hero p").innerText =
+            "स्पर्धकांची नोंदणी करा, गट तयार करा आणि शर्यती व्यवस्थापित करा.";
+        document.querySelector(".about h2").innerText = "कार्यक्रमाविषयी";
+        document.querySelector(".about p").innerText =
+            "पारंपरिक बैलगाडी शर्यत ही ग्रामीण संस्कृतीचा एक भाग आहे.";
+    }
+
+    function switchToEnglish() {
+        document.querySelector("h1").innerText = "Welcome to the Grand Ox Cart Race";
+        document.querySelector(".hero p").innerText =
+            "Register racers, create automatic groups, and manage races easily.";
+        document.querySelector(".about h2").innerText = "About the Event";
+        document.querySelector(".about p").innerText =
+            "Traditional ox cart racing is a historic rural sport celebrating village culture, strength, and speed.";
+    }
+</script>
 
 </body>
 </html>

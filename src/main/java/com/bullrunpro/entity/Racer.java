@@ -9,14 +9,28 @@ public class Racer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false, updatable = false)
+    private String registrationNumber;
+
     private String racerName;
     private String phoneNumber;
     private String village;
-    private String cartNumber;
+
+    private boolean withdrawn = false;
 
     public Racer() {}
 
+    // Auto-generate Registration Number
+    @PrePersist
+    public void generateRegistrationNumber() {
+        if (this.registrationNumber == null) {
+            this.registrationNumber = "BRP-" + System.currentTimeMillis();
+        }
+    }
+
     public Long getId() { return id; }
+
+    public String getRegistrationNumber() { return registrationNumber; }
 
     public String getRacerName() { return racerName; }
     public void setRacerName(String racerName) { this.racerName = racerName; }
@@ -27,6 +41,6 @@ public class Racer {
     public String getVillage() { return village; }
     public void setVillage(String village) { this.village = village; }
 
-    public String getCartNumber() { return cartNumber; }
-    public void setCartNumber(String cartNumber) { this.cartNumber = cartNumber; }
+    public boolean isWithdrawn() { return withdrawn; }
+    public void setWithdrawn(boolean withdrawn) { this.withdrawn = withdrawn; }
 }

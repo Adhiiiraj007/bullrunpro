@@ -125,9 +125,13 @@
         <form id="registrationForm" th:action="@{/saveRacer}" th:object="${racer}" method="post">
 
             <input type="text" th:field="*{racerName}" placeholder="Participant Name" required>
-            <input type="text" th:field="*{phoneNumber}" placeholder="Phone Number" required>
+            <input type="tel"
+                   name="phoneNumber"
+                   placeholder="Phone Number"
+                   pattern="[0-9]{10}"
+                   maxlength="10"
+                   required>
             <input type="text" th:field="*{village}" placeholder="Village" required>
-            <input type="text" th:field="*{cartNumber}" placeholder="Participant ID / Cart Number" required>
 
             <!-- Terms & Conditions Checkbox -->
             <div class="terms">
@@ -188,5 +192,11 @@
     }
 </script>
 
+<script>
+    document.querySelector("input[name='phoneNumber']")
+    .addEventListener("input", function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+</script>
 </body>
 </html>
