@@ -168,12 +168,27 @@
 
 <body>
 
-<header>
-    || TRADITIONAL OX CART RACING EVENT  ||
+<header style="position:relative;">
 
-    <div style="position:absolute; right:20px; top:18px;">
+    || TRADITIONAL OX CART RACING EVENT ||
+
+    <div style="position:absolute; right:20px; top:18px; display:flex; gap:10px;">
+
         <button onclick="switchLanguage('en')">English</button>
         <button onclick="switchLanguage('mr')">मराठी</button>
+
+        <!-- ✅ Admin Login Button (Small & Hidden Style) -->
+        <a href="/admin-portal"
+           style="font-size:13px;
+                  background:#333;
+                  color:white;
+                  padding:6px 10px;
+                  border-radius:5px;
+                  text-decoration:none;
+                  opacity:0.7;">
+            Admin Login
+        </a>
+
     </div>
 </header>
 
