@@ -10,20 +10,19 @@
 <table border="1">
     <tr>
         <th>ID</th>
+        <th>Registration Number</th>
         <th>Name</th>
         <th>Phone</th>
         <th>Village</th>
-        <th>Cart Number</th>
     </tr>
 
     <tr th:each="r : ${racers}">
         <td th:text="${r.id}"></td>
+        <td th:text="${r.registrationNumber}"></td>
         <td th:text="${r.racerName}"></td>
         <td th:text="${r.phoneNumber}"></td>
         <td th:text="${r.village}"></td>
-        <td th:text="${r.cartNumber}"></td>
     </tr>
-
 </table>
 
 <br>
@@ -38,20 +37,21 @@
     function switchLanguage(lang){
         if(lang==='mr'){
             document.querySelector("h2").innerText="नोंदणीकृत स्पर्धक";
-            document.querySelectorAll("th")[1].innerText="नाव";
-            document.querySelectorAll("th")[2].innerText="फोन";
-            document.querySelectorAll("th")[3].innerText="गाव";
-            document.querySelectorAll("th")[4].innerText="गाडी क्रमांक";
+            document.querySelectorAll("th")[1].innerText="नोंदणी क्रमांक";
+            document.querySelectorAll("th")[2].innerText="नाव";
+            document.querySelectorAll("th")[3].innerText="फोन";
+            document.querySelectorAll("th")[4].innerText="गाव";
             document.querySelector("a").innerText="नवीन नोंदणी करा";
         }else{
             document.querySelector("h2").innerText="Registered Racers";
-            document.querySelectorAll("th")[1].innerText="Name";
-            document.querySelectorAll("th")[2].innerText="Phone";
-            document.querySelectorAll("th")[3].innerText="Village";
-            document.querySelectorAll("th")[4].innerText="Cart Number";
+            document.querySelectorAll("th")[1].innerText="Registration Number";
+            document.querySelectorAll("th")[2].innerText="Name";
+            document.querySelectorAll("th")[3].innerText="Phone";
+            document.querySelectorAll("th")[4].innerText="Village";
             document.querySelector("a").innerText="Register New Racer";
         }
     }
 </script>
+
 </body>
 </html>
