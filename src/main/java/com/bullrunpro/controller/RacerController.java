@@ -2,27 +2,21 @@ package com.bullrunpro.controller;
 
 import com.bullrunpro.entity.Racer;
 import com.bullrunpro.repository.RacerRepository;
-import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.List;
-
 @Controller
 public class RacerController {
 
-    private final RacerRepository racerRepository;
+    @Autowired
+    private RacerRepository racerRepository;
 
-    public RacerController(RacerRepository racerRepository) {
-        this.racerRepository = racerRepository;
-    }
-
-    // Razorpay Keys from application.properties
+    // Razorpay Keys
     @Value("${razorpay.key.id}")
     private String keyId;
 
@@ -35,14 +29,14 @@ public class RacerController {
         return "index";
     }
 
-    // Registration Form
+    // Registration Page
     @GetMapping("/registration")
     public String showForm(Model model) {
         model.addAttribute("racer", new Racer());
         return "registration";
     }
 
-    // Save Racer
+    // Save Racer After Payment Success
     @PostMapping("/saveRacer")
     public String saveRacer(@ModelAttribute Racer racer) {
         racerRepository.save(racer);
@@ -59,17 +53,17 @@ public class RacerController {
     // Create Razorpay Order
     @PostMapping("/create-order")
     @ResponseBody
-    public Order createOrder() throws Exception {
+    public String createOrder() throws Exception {
 
-        RazorpayClient client = new RazorpayClient(keyId, keySecret);
+        RazorpayClient client =
+                new RazorpayClient(keyId, keySecret);
 
         JSONObject options = new JSONObject();
+
         options.put("amount", 1500);
         options.put("currency", "INR");
-        options.put("receipt", "bullrunpro_receipt_1");
+        options.put("receipt", "bullrunpro_receipt");
 
-        return client.orders.create(options);
+        return client.orders.create(options).toString();
     }
-
-
 }
