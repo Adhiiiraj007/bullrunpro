@@ -1,29 +1,117 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Race Groups</title>
+    <title>Official Race Groups | BullRunPro</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #111;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #ff6600, #ff8533);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1000px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #ff6600;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 18px;
+            color: red;
+            margin-top: 40px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #ff6600;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f5f5f5;
+        }
+
+        .home-btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto 0;
+            padding: 10px;
+            text-align: center;
+            background: black;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .home-btn:hover {
+            background: #ff6600;
+        }
+    </style>
 </head>
 <body>
 
-<h2>Official Race Groups</h2>
+<div class="header">
+    🐂 Bull Run Pro – Official Race Groups
+</div>
 
-<table border="1">
-    <tr>
-        <th>Group</th>
-        <th>Name</th>
-        <th>Village</th>
-    </tr>
+<div class="container">
 
-    <tr th:each="r : ${racers}">
-        <td th:text="${r.groupNumber}"></td>
-        <td th:text="${r.racerName}"></td>
-        <td th:text="${r.village}"></td>
-    </tr>
+    <h2>🏁 Race Groups</h2>
 
-</table>
+    <!-- IF NOT PUBLISHED -->
+    <div th:if="${notPublished}" class="message">
+        Groups are not published yet. Please check back later.
+    </div>
 
-<br>
-<a th:href="@{/}">Back Home</a>
+    <!-- IF PUBLISHED -->
+    <table th:if="${racers != null}">
+        <tr>
+            <th>Group No</th>
+            <th>Racer Name</th>
+            <th>Village</th>
+        </tr>
+
+        <tr th:each="r : ${racers}">
+            <td th:text="${r.groupNumber}"></td>
+            <td th:text="${r.racerName}"></td>
+            <td th:text="${r.village}"></td>
+        </tr>
+    </table>
+
+    <a th:href="@{/}" class="home-btn">
+        ← Back Home
+    </a>
+
+</div>
 
 </body>
 </html>

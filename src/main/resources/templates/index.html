@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traditional Ox Cart Racing</title>
+    <title>BullRunPro | Traditional Ox Cart Racing</title>
 
     <style>
         * {
@@ -14,23 +14,63 @@
         }
 
         body {
-          background: #fff7e6;
+          background: #f9f9f9;
           color: #333;
         }
 
+        /* HEADER */
         header {
-          background: #8b4513;
+          background: #111;
           color: white;
           padding: 18px;
           text-align: center;
-          font-size: 26px;
+          font-size: 24px;
           font-weight: bold;
+          position: relative;
+        }
+
+        .top-right {
+          position: absolute;
+          right: 20px;
+          top: 15px;
+          display: flex;
+          gap: 10px;
+          align-items: center;
+        }
+
+        .lang-btn {
+          background: #ff6600;
+          border: none;
+          padding: 6px 10px;
+          color: white;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 13px;
+        }
+
+        .lang-btn:hover {
+          background: #e65c00;
+        }
+
+        .admin-btn {
+          font-size: 13px;
+          background: #333;
+          color: white;
+          padding: 6px 10px;
+          border-radius: 5px;
+          text-decoration: none;
+          opacity: 0.8;
+        }
+
+        .admin-btn:hover {
+          opacity: 1;
         }
 
         /* HERO */
         .hero {
-          background: #000 url("images/img7.jpeg") center/cover no-repeat;
-          height: 110vh;
+          background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                      url("images/img7.jpeg") center/cover no-repeat;
+          height: 100vh;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -40,44 +80,42 @@
         }
 
         .hero-content {
-          background: rgba(0,0,0,0.5);
-          padding: 30px;
-          border-radius: 10px;
+          max-width: 700px;
         }
 
         .hero h1 {
-          font-size: 48px;
-          margin-bottom: 10px;
+          font-size: 46px;
+          margin-bottom: 15px;
         }
 
         .hero p {
           font-size: 20px;
-          margin-bottom: 20px;
+          margin-bottom: 25px;
         }
 
-        .hero button {
-          background: orange;
+        .hero-btn {
+          background: #ff6600;
           border: none;
-          padding: 12px 22px;
+          padding: 12px 25px;
           font-size: 18px;
           color: white;
           border-radius: 6px;
           cursor: pointer;
         }
 
-        .hero button:hover {
-          background: darkorange;
+        .hero-btn:hover {
+          background: #e65c00;
         }
 
         section {
-          padding: 60px 20px;
+          padding: 70px 20px;
           text-align: center;
         }
 
         h2 {
-          color: #8b4513;
-          margin-bottom: 20px;
-          font-size: 32px;
+          color: #ff6600;
+          margin-bottom: 25px;
+          font-size: 30px;
         }
 
         .about p {
@@ -92,20 +130,26 @@
           display: flex;
           flex-wrap: wrap;
           justify-content: center;
-          gap: 20px;
+          gap: 25px;
           margin-top: 20px;
         }
 
         .card {
           background: white;
-          width: 250px;
-          padding: 20px;
-          border-radius: 10px;
-          box-shadow: 0 0 10px rgba(0,0,0,0.1);
+          width: 260px;
+          padding: 25px;
+          border-radius: 12px;
+          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+          transition: 0.3s;
+        }
+
+        .card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
         .card h3 {
-          color: #8b4513;
+          color: #ff6600;
           margin-bottom: 10px;
         }
 
@@ -114,7 +158,6 @@
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
           gap: 15px;
-          padding: 0 20px;
         }
 
         .gallery img {
@@ -132,31 +175,32 @@
 
         /* CONTACT */
         .contact p {
-          font-size: 18px;
+          font-size: 17px;
           margin: 8px 0;
         }
 
         /* FOOTER */
         footer {
-          background: #8b4513;
+          background: #111;
           color: white;
           text-align: center;
-          padding: 20px;
+          padding: 25px;
         }
 
-        .register-btn {
-          background: orange;
+        .footer-btn {
+          background: #ff6600;
           border: none;
-          padding: 12px 22px;
-          font-size: 18px;
+          padding: 10px 20px;
+          font-size: 16px;
           color: white;
           border-radius: 6px;
-          cursor: pointer;
+          text-decoration: none;
+          display: inline-block;
           margin-top: 10px;
         }
 
-        .register-btn:hover {
-          background: darkorange;
+        .footer-btn:hover {
+          background: #e65c00;
         }
 
         @media (max-width: 768px) {
@@ -168,100 +212,75 @@
 
 <body>
 
-<header style="position:relative;">
+<header>
+    <span id="headerTitle">|| TRADITIONAL OX CART RACING EVENT ||</span>
 
-    || TRADITIONAL OX CART RACING EVENT ||
-
-    <div style="position:absolute; right:20px; top:18px; display:flex; gap:10px;">
-
-        <button onclick="switchLanguage('en')">English</button>
-        <button onclick="switchLanguage('mr')">मराठी</button>
-
-        <!-- ✅ Admin Login Button (Small & Hidden Style) -->
-        <a href="/admin-portal"
-           style="font-size:13px;
-                  background:#333;
-                  color:white;
-                  padding:6px 10px;
-                  border-radius:5px;
-                  text-decoration:none;
-                  opacity:0.7;">
-            Admin Login
-        </a>
-
+    <div class="top-right">
+        <button class="lang-btn" onclick="switchLanguage('en')">English</button>
+        <button class="lang-btn" onclick="switchLanguage('mr')">मराठी</button>
+        <a href="/admin-portal" class="admin-btn">Admin</a>
     </div>
 </header>
 
-<!-- HERO -->
 <div class="hero">
     <div class="hero-content">
-        <h1>Welcome to the Grand Ox Cart Race</h1>
-        <p>Register racers, create automatic groups, and manage races easily.</p>
+        <h1 id="heroTitle">Welcome to the Grand Ox Cart Race</h1>
+        <p id="heroDesc">Register racers, create automatic groups, and manage races easily.</p>
         <a href="/registration">
-            <button>Register Now</button>
+            <button class="hero-btn" id="heroButton">Register Now</button>
         </a>
     </div>
 </div>
 
-<!-- ABOUT -->
 <section class="about">
-    <h2>About the Event</h2>
-    <p>
-        Traditional ox cart racing is a historic rural sport celebrating village
-        culture, strength, and speed. This digital system helps organizers register
-        racers and automatically group them for fair competition.
+    <h2 id="aboutTitle">About the Event</h2>
+    <p id="aboutDesc">
+        Traditional ox cart racing is a historic rural sport celebrating village culture, strength, and speed.
     </p>
 </section>
 
-<!-- HIGHLIGHTS -->
 <section>
-    <h2>Event Highlights</h2>
+    <h2 id="highlightTitle">Event Highlights</h2>
     <div class="cards">
         <div class="card">
-            <h3>Easy Registration</h3>
-            <p>Quick racer entry with simple digital forms.</p>
+            <h3 id="easyReg">Easy Registration</h3>
+            <p id="easyRegDesc">Quick racer entry with simple digital forms.</p>
         </div>
         <div class="card">
-            <h3>Auto Grouping</h3>
-            <p>Smart fair grouping created instantly.</p>
+            <h3 id="autoGroup">Auto Grouping</h3>
+            <p id="autoGroupDesc">Smart fair grouping created instantly.</p>
         </div>
         <div class="card">
-            <h3>Live Management</h3>
-            <p>Organize races smoothly using technology.</p>
+            <h3 id="liveMgmt">Live Management</h3>
+            <p id="liveMgmtDesc">Organize races smoothly using technology.</p>
         </div>
     </div>
 </section>
 
-<!-- YOUR IMAGE GALLERY -->
 <section>
-    <h2>Race Gallery</h2>
-
+    <h2 id="galleryTitle">Race Gallery</h2>
     <div class="gallery">
-        <img src="images/img1.jpg" alt="Race Image 1">
-        <img src="images/img2.jpg" alt="Race Image 2">
-        <img src="images/img3.jpg" alt="Race Image 3">
-        <img src="images/img4.jpg" alt="Race Image 4">
+        <img src="images/img1.jpg">
+        <img src="images/img2.jpg">
+        <img src="images/img3.jpg">
+        <img src="images/img4.jpg">
     </div>
 </section>
 
-<!-- CONTACT -->
 <section class="contact">
-    <h2>Contact Information</h2>
-    <p><b>Organizer:</b> Shri.Sant Sevagiri Maharaj Yatra Commitee, Pusegaon</p>
-    <p><b>Location:</b> Pusegaon Hindkesari Maidan, Pusegaon, Satara</p>
+    <h2 id="contactTitle">Contact Information</h2>
+    <p><b>Organizer:</b> Shri.Sant Sevagiri Maharaj Yatra Committee, Pusegaon</p>
+    <p><b>Location:</b> Pusegaon Hindkesari Maidan, Satara</p>
     <p><b>Phone:</b> +91 7666353335</p>
     <p><b>Phone:</b> +91 8530218687</p>
-
 </section>
 
-<!-- FOOTER -->
 <footer>
-    <p>© 2026 bullrunpro</p>
-    <a th:href="@{/registration}" class="btn" id="registerBtn">
+    <p>© 2026 BullRunPro</p>
+    <a th:href="@{/registration}" class="footer-btn" id="footerRegister">
         Register New Racer
     </a>
 </footer>
-
 
 <script>
     const translations = {
@@ -281,7 +300,7 @@
             liveMgmtDesc: "Organize races smoothly using technology.",
             galleryTitle: "Race Gallery",
             contactTitle: "Contact Information",
-            goRegister: "Go to Registration"
+            footerBtn: "Register New Racer"
         },
         mr: {
             header: "|| पारंपरिक बैलगाडी शर्यत कार्यक्रम ||",
@@ -299,27 +318,27 @@
             liveMgmtDesc: "तंत्रज्ञानाद्वारे शर्यती सुरळीत व्यवस्थापित करा.",
             galleryTitle: "शर्यत गॅलरी",
             contactTitle: "संपर्क माहिती",
-            goRegister: "नोंदणी पृष्ठावर जा"
+            footerBtn: "नवीन स्पर्धक नोंदणी"
         }
     };
 
     function switchLanguage(lang) {
-        document.querySelector("header").childNodes[0].textContent = translations[lang].header;
-        document.querySelector(".hero h1").innerText = translations[lang].heroTitle;
-        document.querySelector(".hero p").innerText = translations[lang].heroDesc;
-        document.querySelector(".hero button").innerText = translations[lang].registerBtn;
-        document.querySelector(".about h2").innerText = translations[lang].aboutTitle;
-        document.querySelector(".about p").innerText = translations[lang].aboutDesc;
-        document.querySelectorAll("section h2")[1].innerText = translations[lang].highlightTitle;
-        document.querySelectorAll(".card h3")[0].innerText = translations[lang].easyReg;
-        document.querySelectorAll(".card p")[0].innerText = translations[lang].easyRegDesc;
-        document.querySelectorAll(".card h3")[1].innerText = translations[lang].autoGroup;
-        document.querySelectorAll(".card p")[1].innerText = translations[lang].autoGroupDesc;
-        document.querySelectorAll(".card h3")[2].innerText = translations[lang].liveMgmt;
-        document.querySelectorAll(".card p")[2].innerText = translations[lang].liveMgmtDesc;
-        document.querySelectorAll("section h2")[2].innerText = translations[lang].galleryTitle;
-        document.querySelector(".contact h2").innerText = translations[lang].contactTitle;
-        document.querySelector(".register-btn").innerText = translations[lang].goRegister;
+        document.getElementById("headerTitle").innerText = translations[lang].header;
+        document.getElementById("heroTitle").innerText = translations[lang].heroTitle;
+        document.getElementById("heroDesc").innerText = translations[lang].heroDesc;
+        document.getElementById("heroButton").innerText = translations[lang].registerBtn;
+        document.getElementById("aboutTitle").innerText = translations[lang].aboutTitle;
+        document.getElementById("aboutDesc").innerText = translations[lang].aboutDesc;
+        document.getElementById("highlightTitle").innerText = translations[lang].highlightTitle;
+        document.getElementById("easyReg").innerText = translations[lang].easyReg;
+        document.getElementById("easyRegDesc").innerText = translations[lang].easyRegDesc;
+        document.getElementById("autoGroup").innerText = translations[lang].autoGroup;
+        document.getElementById("autoGroupDesc").innerText = translations[lang].autoGroupDesc;
+        document.getElementById("liveMgmt").innerText = translations[lang].liveMgmt;
+        document.getElementById("liveMgmtDesc").innerText = translations[lang].liveMgmtDesc;
+        document.getElementById("galleryTitle").innerText = translations[lang].galleryTitle;
+        document.getElementById("contactTitle").innerText = translations[lang].contactTitle;
+        document.getElementById("footerRegister").innerText = translations[lang].footerBtn;
     }
 </script>
 

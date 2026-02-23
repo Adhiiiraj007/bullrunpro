@@ -1,265 +1,171 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Sports Event Registration | BullRunPro</title>
-
-    <!-- Language Switch -->
-    <div style="position:absolute; right:20px; top:18px;">
-        <button type="button" onclick="switchLanguage('en')">English</button>
-        <button type="button" onclick="switchLanguage('mr')">मराठी</button>
-    </div>
+    <title>Racer Registration</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
-        body {
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
             font-family: Arial, sans-serif;
-            background: url('/images/background.jpg') no-repeat center center fixed;
-            background-size: cover;
+        }
+
+        body {
+            background: #fff7e6;
+        }
+
+        header {
+            background: #8b4513;
+            color: white;
+            padding: 18px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
         }
 
         .container {
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 90vh;
             padding: 20px;
         }
 
-        .top-image img {
-            width: 200px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            margin-bottom: 20px;
+        .form-card {
+            background: white;
+            width: 420px;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
-        .info-box {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 15px 20px;
-            border-radius: 10px;
-            width: 400px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-align: left;
-        }
-
-        .form-box {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            width: 400px;
+        .form-card h2 {
             text-align: center;
+            margin-bottom: 25px;
+            color: #8b4513;
         }
 
-        input {
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .form-group input {
             width: 100%;
             padding: 10px;
-            margin: 8px 0;
-            border-radius: 8px;
+            border-radius: 6px;
             border: 1px solid #ccc;
+            font-size: 14px;
         }
 
-        button.pay-btn {
+        .form-group input:focus {
+            border-color: orange;
+            outline: none;
+            box-shadow: 0 0 5px rgba(255,140,0,0.5);
+        }
+
+        .submit-btn {
             width: 100%;
-            padding: 10px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 8px;
-            background-color: #ff6600;
+            padding: 12px;
+            background: orange;
             color: white;
+            border: none;
+            border-radius: 6px;
             font-size: 16px;
             cursor: pointer;
+            margin-top: 10px;
         }
 
-        button.pay-btn:hover {
-            background-color: #e65c00;
+        .submit-btn:hover {
+            background: darkorange;
         }
 
-        .link {
-            margin-top: 15px;
+        .back-link {
             display: block;
+            text-align: center;
+            margin-top: 15px;
             text-decoration: none;
-            color: #333;
+            color: #8b4513;
             font-weight: bold;
         }
 
-        .terms {
-            font-size: 13px;
-            margin-top: 10px;
-            text-align: left;
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #8b4513;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+        }
+
+        @media(max-width: 500px) {
+            .form-card {
+                width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
 
+<header>
+    || RACER REGISTRATION ||
+</header>
+
 <div class="container">
 
-    <div class="top-image">
-        <img src="/images/img8.jpeg" alt="Event Image">
-    </div>
+    <div class="form-card">
+        <h2>Register New Racer</h2>
 
-    <div class="info-box">
-        <h3 id="aboutTitle">About This Event</h3>
-        <p id="aboutText">
-            BullRunPro is an online sports event management platform.
-            The registration fee collected is strictly for event participation,
-            management services, and insurance coverage.
-        </p>
-        <p id="noteText">
-            This platform does NOT support gambling or betting activities.
-        </p>
-    </div>
+        <form th:action="@{/saveRacer}" th:object="${racer}" method="post">
 
-    <div class="form-box">
-
-        <h2 id="formTitle">Event Registration</h2>
-
-        <form id="registrationForm"
-              th:action="@{/saveRacer}"
-              th:object="${racer}"
-              method="post">
-
-            <input type="text" th:field="*{racerName}"
-                   id="racerName"
-                   placeholder="Participant Name"
-                   required>
-
-            <input type="tel"
-                   th:field="*{phoneNumber}"
-                   id="phoneNumber"
-                   placeholder="Phone Number"
-                   pattern="[0-9]{10}"
-                   maxlength="10"
-                   required>
-
-            <input type="text" th:field="*{village}"
-                   id="village"
-                   placeholder="Village"
-                   required>
-
-            <div class="terms">
-                <label>
-                    <input type="checkbox" id="agreeTerms" required>
-                    <span id="termsText">
-                    I agree that this payment is for event registration
-                    and management services only.
-                    </span>
-                </label>
+            <div class="form-group">
+                <label>Racer Name</label>
+                <input type="text" th:field="*{racerName}" placeholder="Enter racer name" required>
             </div>
 
-            <button type="button" class="pay-btn" onclick="payNow()">
-                Pay ₹15 & Register
+            <div class="form-group">
+                <label>Village</label>
+                <input type="text" th:field="*{village}" placeholder="Enter village name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Contact Number</label>
+                <input type="text" th:field="*{contactNumber}" placeholder="Enter mobile number" required>
+            </div>
+
+            <div class="form-group">
+                <label>Ox Name</label>
+                <input type="text" th:field="*{oxName}" placeholder="Enter ox name" required>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                Submit Registration
             </button>
 
         </form>
 
+        <a th:href="@{/}" class="back-link">← Back to Home</a>
+
     </div>
+
 </div>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-<script>
-    function payNow() {
-
-        let name = document.getElementById("racerName").value.trim();
-        let phone = document.getElementById("phoneNumber").value.trim();
-        let village = document.getElementById("village").value.trim();
-        let terms = document.getElementById("agreeTerms").checked;
-
-        if(name === "" || phone === "" || village === "") {
-            alert("Please fill all fields before payment.");
-            return;
-        }
-
-        if(phone.length !== 10) {
-            alert("Phone number must be exactly 10 digits.");
-            return;
-        }
-
-        if(!terms) {
-            alert("Please accept terms before payment.");
-            return;
-        }
-
-        fetch("/create-order", {
-            method: "POST"
-        })
-        .then(response => response.json())
-        .then(order => {
-
-            var options = {
-                "key": "rzp_test_SJJU7HTqnGA6VF",
-                "amount": order.amount,
-                "currency": "INR",
-                "name": "Bull Run Pro",
-                "description": "Registration Fee",
-                "order_id": order.id,
-                "handler": function (response) {
-                    document.getElementById("registrationForm").submit();
-                },
-                "theme": {
-                    "color": "#ff6600"
-                }
-            };
-
-            var rzp = new Razorpay(options);
-            rzp.open();
-        });
-    }
-</script>
-
-<script>
-    document.getElementById("phoneNumber")
-    .addEventListener("input", function() {
-        this.value = this.value.replace(/[^0-9]/g, '');
-    });
-</script>
-
-<script>
-    function switchLanguage(lang) {
-
-        if(lang === 'mr') {
-
-            document.getElementById("formTitle").innerText = "कार्यक्रम नोंदणी";
-            document.getElementById("aboutTitle").innerText = "कार्यक्रमाविषयी";
-            document.getElementById("aboutText").innerText =
-            "BullRunPro हे ऑनलाइन क्रीडा स्पर्धा व्यवस्थापन व्यासपीठ आहे.";
-            document.getElementById("noteText").innerText =
-            "ही वेबसाईट जुगार किंवा बेटिंगला समर्थन करत नाही.";
-
-            document.getElementById("racerName").placeholder = "स्पर्धकाचे नाव";
-            document.getElementById("phoneNumber").placeholder = "फोन नंबर";
-            document.getElementById("village").placeholder = "गाव";
-
-            document.querySelector(".pay-btn").innerText = "₹15 भरा व नोंदणी करा";
-            document.getElementById("viewLink").innerText = "नोंदणीकृत स्पर्धक पहा";
-
-            document.getElementById("termsText").innerText =
-            "मी सहमत आहे की ही रक्कम फक्त कार्यक्रम नोंदणी व व्यवस्थापनासाठी आहे.";
-
-        } else {
-
-            document.getElementById("formTitle").innerText = "Event Registration";
-            document.getElementById("aboutTitle").innerText = "About This Event";
-            document.getElementById("aboutText").innerText =
-            "BullRunPro is an online sports event management platform.";
-            document.getElementById("noteText").innerText =
-            "This platform does NOT support gambling or betting activities.";
-
-            document.getElementById("racerName").placeholder = "Participant Name";
-            document.getElementById("phoneNumber").placeholder = "Phone Number";
-            document.getElementById("village").placeholder = "Village";
-
-            document.querySelector(".pay-btn").innerText = "Pay ₹15 & Register";
-            document.getElementById("viewLink").innerText = "View Registered Participants";
-
-            document.getElementById("termsText").innerText =
-            "I agree that this payment is for event registration and management services only.";
-        }
-    }
-</script>
+<footer>
+    © 2026 bullrunpro
+</footer>
 
 </body>
 </html>

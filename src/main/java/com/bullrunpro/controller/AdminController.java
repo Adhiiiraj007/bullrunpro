@@ -58,49 +58,25 @@ public class AdminController {
             return "redirect:/admin/groups";
         }
 
-        // Only active racers
         List<Racer> racers = racerRepository.findByWithdrawnFalse();
 
-        // Shuffle for fairness
         Collections.shuffle(racers);
 
-        // Clear old groups + reset publish
+        // Reset old groups + unpublished
         for (Racer r : racers) {
             r.setGroupNumber(null);
             r.setGroupsPublished(false);
         }
 
-        int total = racers.size();
-        int fullGroups = total / groupSize;
-        int remaining = total % groupSize;
-
         int index = 0;
         int groupNumber = 1;
 
-        // Create full groups
-        for (int i = 0; i < fullGroups; i++) {
-            for (int j = 0; j < groupSize; j++) {
-                racers.get(index).setGroupNumber(groupNumber);
-                index++;
-            }
-            groupNumber++;
-        }
+        for (Racer r : racers) {
+            r.setGroupNumber(groupNumber);
+            index++;
 
-        // Handle remaining participants
-        if (remaining > 0) {
-
-            int half = remaining / 2;
-
-            for (int i = 0; i < half; i++) {
-                racers.get(index).setGroupNumber(groupNumber);
-                index++;
-            }
-
-            groupNumber++;
-
-            for (int i = 0; i < remaining - half; i++) {
-                racers.get(index).setGroupNumber(groupNumber);
-                index++;
+            if (index % groupSize == 0) {
+                groupNumber++;
             }
         }
 
@@ -131,8 +107,14 @@ public class AdminController {
     @GetMapping("/groups")
     public String viewGroupsPublic(Model model) {
 
-        model.addAttribute("racers",
-                racerRepository.findByGroupsPublishedTrue());
+        List<Racer> published =
+                racerRepository.findByGroupsPublishedTrue();
+
+        if (published.isEmpty()) {
+            model.addAttribute("notPublished", true);
+        } else {
+            model.addAttribute("racers", published);
+        }
 
         return "public-groups";
     }

@@ -6,63 +6,28 @@
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #ff6600, #ff9966);
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #111; /* Black background */
+        }
+
+        .header {
+            background: linear-gradient(90deg, #ff6600, #ff8533);
+            padding: 20px;
+            color: white;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
 
         .container {
-            width: 90%;
-            max-width: 1100px;
+            width: 92%;
+            max-width: 1200px;
             margin: 40px auto;
             background: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #ff6600;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th {
-            background-color: #ff6600;
-            color: white;
-            padding: 12px;
-            text-align: center;
-        }
-
-        td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tr:hover {
-            background-color: #fff3e6;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 18px;
-            background-color: #ff6600;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-top: 20px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .btn:hover {
-            background-color: #e65c00;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
         }
 
         .top-bar {
@@ -72,20 +37,74 @@
         }
 
         .lang-btn button {
-            padding: 6px 10px;
+            padding: 8px 14px;
             border: none;
+            background-color: black;
+            color: white;
             border-radius: 6px;
             cursor: pointer;
             margin-left: 5px;
+            font-weight: bold;
         }
 
         .lang-btn button:hover {
-            opacity: 0.8;
+            background-color: #ff6600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+        }
+
+        th {
+            background-color: #000;
+            color: #ff6600;
+            padding: 14px;
+            font-size: 15px;
+        }
+
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background-color: #fff4ec;
+            transition: 0.3s;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 22px;
+            background: linear-gradient(45deg, #ff6600, #ff8533);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 25px;
+            transition: 0.3s;
+            box-shadow: 0 6px 15px rgba(255,102,0,0.4);
+        }
+
+        .btn:hover {
+            background: black;
+            color: #ff6600;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.5);
         }
 
         .footer-link {
             text-align: center;
-            margin-top: 25px;
+        }
+
+        .card-count {
+            background: #ff6600;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
         }
 
         @media(max-width: 768px){
@@ -100,7 +119,7 @@
             tr {
                 margin-bottom: 15px;
                 background: #fff3e6;
-                padding: 10px;
+                padding: 12px;
                 border-radius: 10px;
             }
 
@@ -112,6 +131,7 @@
             td::before {
                 font-weight: bold;
                 display: block;
+                color: #ff6600;
             }
         }
     </style>
@@ -119,10 +139,16 @@
 
 <body>
 
+<div class="header">
+    🐂 Bull Run Pro – Registered Racers
+</div>
+
 <div class="container">
 
     <div class="top-bar">
-        <h2 id="pageTitle">Registered Racers</h2>
+        <div class="card-count">
+            Total Racers: <span th:text="${#lists.size(racers)}"></span>
+        </div>
 
         <div class="lang-btn">
             <button onclick="switchLanguage('en')">English</button>
@@ -134,7 +160,7 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th id="regHead">Registration Number</th>
+            <th id="regHead">Registration No</th>
             <th id="nameHead">Name</th>
             <th id="phoneHead">Phone</th>
             <th id="villageHead">Village</th>
@@ -164,15 +190,13 @@
     function switchLanguage(lang){
 
         if(lang==='mr'){
-            document.getElementById("pageTitle").innerText="नोंदणीकृत स्पर्धक";
             document.getElementById("regHead").innerText="नोंदणी क्रमांक";
             document.getElementById("nameHead").innerText="नाव";
             document.getElementById("phoneHead").innerText="फोन";
             document.getElementById("villageHead").innerText="गाव";
             document.getElementById("registerBtn").innerText="नवीन नोंदणी करा";
         }else{
-            document.getElementById("pageTitle").innerText="Registered Racers";
-            document.getElementById("regHead").innerText="Registration Number";
+            document.getElementById("regHead").innerText="Registration No";
             document.getElementById("nameHead").innerText="Name";
             document.getElementById("phoneHead").innerText="Phone";
             document.getElementById("villageHead").innerText="Village";
