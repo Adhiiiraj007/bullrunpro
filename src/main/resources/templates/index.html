@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,45 +28,34 @@
             position: relative;
         }
 
-        .top-right {
+        .top-buttons {
             position: absolute;
             right: 20px;
-            top: 18px;
+            top: 15px;
             display: flex;
             gap: 10px;
         }
 
-        .top-right button {
-            background: orange;
-            border: none;
+        .top-buttons button,
+        .top-buttons a {
+            font-size: 13px;
             padding: 6px 10px;
             border-radius: 5px;
+            border: none;
             cursor: pointer;
-            color: white;
-        }
-
-        .top-right button:hover {
-            background: darkorange;
+            text-decoration: none;
         }
 
         .admin-btn {
-            font-size: 13px;
             background: #333;
             color: white;
-            padding: 6px 10px;
-            border-radius: 5px;
-            text-decoration: none;
             opacity: 0.8;
-        }
-
-        .admin-btn:hover {
-            opacity: 1;
         }
 
         /* HERO */
         .hero {
             background: #000 url("images/img7.jpeg") center/cover no-repeat;
-            height: 110vh;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -77,33 +65,42 @@
         }
 
         .hero-content {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 30px;
-            border-radius: 10px;
+            background: rgba(0,0,0,0.6);
+            padding: 40px;
+            border-radius: 12px;
         }
 
         .hero h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
+            font-size: 42px;
+            margin-bottom: 15px;
         }
 
         .hero p {
-            font-size: 20px;
-            margin-bottom: 20px;
+            font-size: 18px;
+            margin-bottom: 25px;
         }
 
-        .hero-btn {
+        .main-btn {
             background: orange;
-            padding: 12px 22px;
-            font-size: 18px;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
             color: white;
             border-radius: 6px;
-            text-decoration: none;
-            display: inline-block;
+            cursor: pointer;
+            margin: 5px;
         }
 
-        .hero-btn:hover {
+        .main-btn:hover {
             background: darkorange;
+        }
+
+        .groups-btn {
+            background: #4CAF50;
+        }
+
+        .groups-btn:hover {
+            background: #3e8e41;
         }
 
         section {
@@ -114,7 +111,7 @@
         h2 {
             color: #8b4513;
             margin-bottom: 20px;
-            font-size: 32px;
+            font-size: 30px;
         }
 
         .about p {
@@ -124,7 +121,6 @@
             line-height: 1.6;
         }
 
-        /* CARDS */
         .cards {
             display: flex;
             flex-wrap: wrap;
@@ -138,7 +134,7 @@
             width: 250px;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         .card h3 {
@@ -146,7 +142,6 @@
             margin-bottom: 10px;
         }
 
-        /* GALLERY */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -159,17 +154,6 @@
             height: 220px;
             object-fit: cover;
             border-radius: 12px;
-            transition: 0.3s;
-        }
-
-        .gallery img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .contact p {
-            font-size: 18px;
-            margin: 8px 0;
         }
 
         footer {
@@ -179,18 +163,14 @@
             padding: 20px;
         }
 
-        .footer-btn {
-            background: orange;
-            padding: 10px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            color: white;
-            display: inline-block;
-            margin-top: 10px;
-        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 28px;
+            }
 
-        .footer-btn:hover {
-            background: darkorange;
+            .hero p {
+                font-size: 15px;
+            }
         }
     </style>
 </head>
@@ -198,12 +178,15 @@
 <body>
 
 <header>
-    <span id="headerTitle">|| TRADITIONAL OX CART RACING EVENT ||</span>
+    || TRADITIONAL OX CART RACING EVENT ||
 
-    <div class="top-right">
+    <div class="top-buttons">
         <button onclick="switchLanguage('en')">English</button>
         <button onclick="switchLanguage('mr')">मराठी</button>
-        <a th:href="@{/admin-portal}" class="admin-btn">Admin Login</a>
+
+        <a th:href="@{/admin-portal}" class="admin-btn">
+            Admin Login
+        </a>
     </div>
 </header>
 
@@ -215,73 +198,90 @@
             Register racers, create automatic groups, and manage races easily.
         </p>
 
-        <!-- ✅ FIXED REGISTRATION LINK -->
-        <a th:href="@{/registration}" class="hero-btn" id="heroButton">
-            Register Now
+        <a th:href="@{/registration}">
+            <button class="main-btn" id="registerBtn">
+                Register Now
+            </button>
+        </a>
+
+        <a th:href="@{/groups}">
+            <button class="main-btn groups-btn">
+                View Race Groups
+            </button>
         </a>
     </div>
 </div>
 
 <!-- ABOUT -->
 <section class="about">
-    <h2 id="aboutTitle">About the Event</h2>
-    <p id="aboutDesc">
-        Traditional ox cart racing is a historic rural sport celebrating village
-        culture, strength, and speed. This digital system helps organizers register
-        racers and automatically group them for fair competition.
+    <h2>About the Event</h2>
+    <p>
+        Traditional ox cart racing is a historic rural sport celebrating village culture,
+        strength, and speed. This digital system helps organizers register racers
+        and automatically group them for fair competition.
     </p>
 </section>
 
 <!-- HIGHLIGHTS -->
 <section>
-    <h2 id="highlightTitle">Event Highlights</h2>
+    <h2>Event Highlights</h2>
     <div class="cards">
         <div class="card">
-            <h3 id="easyReg">Easy Registration</h3>
-            <p id="easyRegDesc">Quick racer entry with simple digital forms.</p>
+            <h3>Easy Registration</h3>
+            <p>Quick racer entry with simple digital forms.</p>
         </div>
         <div class="card">
-            <h3 id="autoGroup">Auto Grouping</h3>
-            <p id="autoGroupDesc">Smart fair grouping created instantly.</p>
+            <h3>Auto Grouping</h3>
+            <p>Smart fair grouping created instantly.</p>
         </div>
         <div class="card">
-            <h3 id="liveMgmt">Live Management</h3>
-            <p id="liveMgmtDesc">Organize races smoothly using technology.</p>
+            <h3>Live Management</h3>
+            <p>Organize races smoothly using technology.</p>
         </div>
     </div>
 </section>
 
 <!-- GALLERY -->
 <section>
-    <h2 id="galleryTitle">Race Gallery</h2>
+    <h2>Race Gallery</h2>
     <div class="gallery">
-        <img src="images/img1.jpg" alt="Race Image 1">
-        <img src="images/img2.jpg" alt="Race Image 2">
-        <img src="images/img3.jpg" alt="Race Image 3">
-        <img src="images/img4.jpg" alt="Race Image 4">
+        <img src="images/img1.jpg">
+        <img src="images/img2.jpg">
+        <img src="images/img3.jpg">
+        <img src="images/img4.jpg">
     </div>
 </section>
 
 <!-- CONTACT -->
-<section class="contact">
-    <h2 id="contactTitle">Contact Information</h2>
+<section>
+    <h2>Contact Information</h2>
     <p><b>Organizer:</b> Shri.Sant Sevagiri Maharaj Yatra Committee, Pusegaon</p>
-    <p><b>Location:</b> Pusegaon Hindkesari Maidan, Satara</p>
+    <p><b>Location:</b> Pusegaon Hindkesari Maidan, Pusegaon, Satara</p>
     <p><b>Phone:</b> +91 7666353335</p>
     <p><b>Phone:</b> +91 8530218687</p>
 </section>
 
 <footer>
-    <p>© 2026 bullrunpro</p>
-    <a th:href="@{/registration}" class="footer-btn">
-        Register New Racer
-    </a>
+    © 2026 bullrunpro
 </footer>
 
 <script>
     function switchLanguage(lang) {
-        // You can expand this safely later
-        alert("Language switched to: " + lang);
+        if (lang === 'mr') {
+            document.getElementById("heroTitle").innerText =
+                "भव्य बैलगाडी शर्यतीत आपले स्वागत आहे";
+            document.getElementById("heroDesc").innerText =
+                "स्पर्धकांची नोंदणी करा, गट तयार करा आणि शर्यती सहज व्यवस्थापित करा.";
+            document.getElementById("registerBtn").innerText =
+                "आता नोंदणी करा";
+        } else {
+            document.getElementById("heroTitle").innerText =
+                "Welcome to the Grand Ox Cart Race";
+            document.getElementById("heroDesc").innerText =
+                "Register racers, create automatic groups, and manage races easily.";
+            document.getElementById("registerBtn").innerText =
+                "Register Now";
+        }
     }
 </script>
 

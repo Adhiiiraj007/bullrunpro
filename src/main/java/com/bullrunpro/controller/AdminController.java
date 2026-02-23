@@ -16,41 +16,50 @@ public class AdminController {
     @Autowired
     private RacerRepository racerRepository;
 
-    // ================= ADMIN LOGIN =================
-
+    // ================= LOGIN =================
     @GetMapping("/admin-portal")
     public String loginPage() {
         return "admin-login";
     }
 
     // ================= DASHBOARD =================
-
     @GetMapping("/admin/dashboard")
     public String dashboard(Model model) {
+
         model.addAttribute("totalRacers",
                 racerRepository.findByWithdrawnFalse().size());
+
+        model.addAttribute("groupsCreated",
+                racerRepository.findByGroupNumberIsNotNull().size());
+
+        model.addAttribute("groupsPublished",
+                racerRepository.findByGroupsPublishedTrue().size() > 0);
+
         return "admin-dashboard";
     }
 
-    // ================= VIEW ALL RACERS =================
-
+    // ================= VIEW RACERS =================
     @GetMapping("/admin/racers")
     public String viewAllRacers(Model model) {
         model.addAttribute("racers", racerRepository.findAll());
         return "admin-racers";
     }
 
-    // ================= VIEW GROUPS (ADMIN) =================
-
+    // ================= VIEW GROUPS =================
     @GetMapping("/admin/groups")
     public String viewGroups(Model model) {
-        model.addAttribute("racers",
-                racerRepository.findByGroupNumberIsNotNull());
+
+        List<Racer> grouped =
+                racerRepository.findByGroupNumberIsNotNull();
+
+        model.addAttribute("racers", grouped);
+        model.addAttribute("published",
+                racerRepository.findByGroupsPublishedTrue().size() > 0);
+
         return "admin-groups";
     }
 
     // ================= GENERATE GROUPS =================
-
     @PostMapping("/admin/generate-groups")
     public String generateGroups(@RequestParam int groupSize) {
 
@@ -58,11 +67,12 @@ public class AdminController {
             return "redirect:/admin/groups";
         }
 
-        List<Racer> racers = racerRepository.findByWithdrawnFalse();
+        List<Racer> racers =
+                racerRepository.findByWithdrawnFalse();
 
         Collections.shuffle(racers);
 
-        // Reset old groups + unpublished
+        // Reset groups
         for (Racer r : racers) {
             r.setGroupNumber(null);
             r.setGroupsPublished(false);
@@ -86,7 +96,6 @@ public class AdminController {
     }
 
     // ================= PUBLISH GROUPS =================
-
     @PostMapping("/admin/publish-groups")
     public String publishGroups() {
 
@@ -102,19 +111,31 @@ public class AdminController {
         return "redirect:/admin/groups";
     }
 
-    // ================= PUBLIC VIEW =================
+    // ================= UNPUBLISH GROUPS =================
+    @PostMapping("/admin/unpublish-groups")
+    public String unpublishGroups() {
 
+        List<Racer> racers =
+                racerRepository.findByGroupNumberIsNotNull();
+
+        for (Racer r : racers) {
+            r.setGroupsPublished(false);
+        }
+
+        racerRepository.saveAll(racers);
+
+        return "redirect:/admin/groups";
+    }
+
+    // ================= PUBLIC VIEW =================
     @GetMapping("/groups")
     public String viewGroupsPublic(Model model) {
 
         List<Racer> published =
                 racerRepository.findByGroupsPublishedTrue();
 
-        if (published.isEmpty()) {
-            model.addAttribute("notPublished", true);
-        } else {
-            model.addAttribute("racers", published);
-        }
+        model.addAttribute("racers", published);
+        model.addAttribute("notPublished", published.isEmpty());
 
         return "public-groups";
     }
