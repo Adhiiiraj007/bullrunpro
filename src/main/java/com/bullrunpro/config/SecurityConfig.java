@@ -23,7 +23,7 @@ public class SecurityConfig {
                         .requestMatchers("/",
                                 "/registration",
                                 "/saveRacer",
-                                "/public-groups",
+                                "/groups",
                                 "/create-order",
                                 "/success",
                                 "/css/**",
