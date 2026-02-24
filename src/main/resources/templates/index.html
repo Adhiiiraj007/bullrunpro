@@ -10,7 +10,7 @@
             margin:0;
             padding:0;
             box-sizing:border-box;
-            font-family: 'Segoe UI', sans-serif;
+            font-family:'Segoe UI', sans-serif;
         }
 
         body{
@@ -36,8 +36,8 @@
         }
 
         .logo{
-            width:60px;   /* Small Logo */
-            height:60px;
+            width:55px;
+            height:55px;
             object-fit:cover;
             border-radius:50%;
         }
@@ -56,20 +56,29 @@
         .top-buttons button,
         .top-buttons a{
             font-size:12px;
-            padding:6px 10px;
-            border-radius:5px;
-            border:none;
+            padding:6px 12px;
+            border-radius:20px;
+            border:2px solid white;
             cursor:pointer;
             text-decoration:none;
+            background:white;
+            color:black;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .top-buttons button:hover,
+        .top-buttons a:hover{
+            background:orange;
+            border-color:orange;
         }
 
         .admin-btn{
-            background:orange;
-            color:black;
-            font-weight:bold;
+            background:orange !important;
+            border-color:orange !important;
         }
 
-        /* ===== HERO SECTION ===== */
+        /* ===== HERO ===== */
         .hero{
             padding:80px 20px;
             text-align:center;
@@ -96,6 +105,7 @@
             border-radius:6px;
             cursor:pointer;
             margin:8px;
+            transition:0.3s;
         }
 
         .main-btn:hover{
@@ -156,7 +166,7 @@
             margin-top:40px;
         }
 
-        /* ===== MOBILE RESPONSIVE ===== */
+        /* ===== MOBILE ===== */
         @media(max-width:768px){
 
             header{
@@ -187,9 +197,7 @@
 <body>
 
 <header>
-
     <div class="logo-section">
-        <!-- 🔥 SMALL LOGO -->
         <img src="images/img8.jpeg" class="logo" alt="Logo">
         <h1 id="headerTitle">TRADITIONAL OX CART RACING</h1>
     </div>
@@ -199,7 +207,6 @@
         <button onclick="switchLanguage('mr')">मराठी</button>
         <a th:href="@{/admin-portal}" class="admin-btn">Admin Login</a>
     </div>
-
 </header>
 
 <div class="hero">
@@ -218,41 +225,43 @@
 </div>
 
 <section>
-    <h2>Event Highlights</h2>
+    <h2 id="highlightTitle">Event Highlights</h2>
 
     <div class="cards">
         <div class="card">
-            <h3>Easy Registration</h3>
-            <p>Simple digital registration for racers.</p>
+            <h3 id="card1Title">Easy Registration</h3>
+            <p id="card1Desc">Simple digital registration for racers.</p>
         </div>
 
         <div class="card">
-            <h3>Automatic Grouping</h3>
-            <p>Random and fair group creation system.</p>
+            <h3 id="card2Title">Automatic Grouping</h3>
+            <p id="card2Desc">Random and fair group creation system.</p>
         </div>
 
         <div class="card">
-            <h3>Professional Management</h3>
-            <p>Organize races smoothly using technology.</p>
+            <h3 id="card3Title">Professional Management</h3>
+            <p id="card3Desc">Organize races smoothly using technology.</p>
         </div>
     </div>
 </section>
 
 <section>
-    <h2>Contact Information</h2>
-    <p><b>Organizer:</b> Shri.Sant Sevagiri Maharaj Yatra Committee, Pusegaon</p>
-    <p><b>Location:</b> Pusegaon Hindkesari Maidan, Pusegaon, Satara</p>
-    <p><b>Phone:</b> +91 7666353335</p>
-    <p><b>Phone:</b> +91 8530218687</p>
+    <h2 id="contactTitle">Contact Information</h2>
+    <p id="organizer"><b>Organizer:</b> Shri. Sant Sevagiri Maharaj Yatra Committee, Pusegaon</p>
+    <p id="location"><b>Location:</b> Pusegaon Hindkesari Maidan, Pusegaon, Satara</p>
+    <p id="phone1"><b>Phone:</b> +91 7666353335</p>
+    <p id="phone2"><b>Phone:</b> +91 8530218687</p>
 </section>
 
-<footer>
+<footer id="footerText">
     © 2026 BullRunPro
 </footer>
 
 <script>
     function switchLanguage(lang){
+
         if(lang === 'mr'){
+
             document.getElementById("headerTitle").innerText =
             "पारंपरिक बैलगाडी शर्यत";
 
@@ -267,6 +276,46 @@
 
             document.getElementById("groupBtn").innerText =
             "शर्यतीचे गट पहा";
+
+            document.getElementById("highlightTitle").innerText =
+            "कार्यक्रमाची वैशिष्ट्ये";
+
+            document.getElementById("card1Title").innerText =
+            "सोपे नोंदणी";
+
+            document.getElementById("card1Desc").innerText =
+            "स्पर्धकांसाठी सोपी डिजिटल नोंदणी प्रक्रिया.";
+
+            document.getElementById("card2Title").innerText =
+            "स्वयंचलित गट तयार करणे";
+
+            document.getElementById("card2Desc").innerText =
+            "न्याय्य आणि यादृच्छिक गट तयार करण्याची प्रणाली.";
+
+            document.getElementById("card3Title").innerText =
+            "व्यावसायिक व्यवस्थापन";
+
+            document.getElementById("card3Desc").innerText =
+            "तंत्रज्ञानाच्या सहाय्याने शर्यतीचे सुयोग्य आयोजन.";
+
+            document.getElementById("contactTitle").innerText =
+            "संपर्क माहिती";
+
+            document.getElementById("organizer").innerHTML =
+            "<b>आयोजक:</b> श्री संत सेवागिरी महाराज यात्रा समिती, पुसगाव";
+
+            document.getElementById("location").innerHTML =
+            "<b>स्थळ:</b> पुसगाव हिंदकेसरी मैदान, पुसगाव, सातारा";
+
+            document.getElementById("phone1").innerHTML =
+            "<b>फोन:</b> +91 7666353335";
+
+            document.getElementById("phone2").innerHTML =
+            "<b>फोन:</b> +91 8530218687";
+
+            document.getElementById("footerText").innerText =
+            "© 2026 बुल रन प्रो";
+
         } else {
             location.reload();
         }
