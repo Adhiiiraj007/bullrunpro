@@ -53,29 +53,14 @@ public class RacerController {
 
     // Save Racer After Payment Verification
     @PostMapping("/saveRacer")
-    public String saveRacer(@ModelAttribute Racer racer) {
+    public String saveRacer(@ModelAttribute Racer racer){
 
-        try {
+        // Auto generate registration number
+        racer.setRegNo("BRP-" + System.currentTimeMillis());
 
-            JSONObject options = new JSONObject();
-            options.put("razorpay_order_id", racer.getOrderId());
-            options.put("razorpay_payment_id", racer.getPaymentId());
-            options.put("razorpay_signature", racer.getSignature());
+        racerRepository.save(racer);
 
-            boolean isValid = Utils.verifyPaymentSignature(options, keySecret);
-
-            if (!isValid) {
-                return "redirect:/registration?error=payment_failed";
-            }
-
-            racerRepository.save(racer);
-
-            return "success";
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/registration?error=server_error";
-        }
+        return "success";
     }
 
     // View Racers
