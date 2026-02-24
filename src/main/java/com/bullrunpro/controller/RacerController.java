@@ -56,7 +56,7 @@ public class RacerController {
     public String saveRacer(@ModelAttribute Racer racer){
 
         // Auto generate registration number
-        racer.setRegNo("BRP-" + System.currentTimeMillis());
+        racer.setRegistrationNumber("BRP-" + System.currentTimeMillis());
 
         racerRepository.save(racer);
 
