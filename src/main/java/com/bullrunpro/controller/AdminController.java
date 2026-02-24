@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Controller
 public class AdminController {
@@ -67,27 +70,23 @@ public class AdminController {
             return "redirect:/admin/groups";
         }
 
-        List<Racer> racers =
-                racerRepository.findByWithdrawnFalse();
+        List<Racer> racers = racerRepository.findByWithdrawnFalse();
 
-        Collections.shuffle(racers);
-
-        // Reset groups
-        for (Racer r : racers) {
-            r.setGroupNumber(null);
-            r.setGroupsPublished(false);
+        if (racers.isEmpty()) {
+            return "redirect:/admin/groups";
         }
 
-        int index = 0;
+        // Randomize list
+        Collections.shuffle(racers);
+
         int groupNumber = 1;
 
-        for (Racer r : racers) {
-            r.setGroupNumber(groupNumber);
-            index++;
+        for (int i = 0; i < racers.size(); i++) {
 
-            if (index % groupSize == 0) {
-                groupNumber++;
-            }
+            Racer racer = racers.get(i);
+
+            racer.setGroupNumber((i / groupSize) + 1);
+            racer.setGroupsPublished(false);
         }
 
         racerRepository.saveAll(racers);
@@ -134,9 +133,37 @@ public class AdminController {
         List<Racer> published =
                 racerRepository.findByGroupsPublishedTrue();
 
-        model.addAttribute("racers", published);
-        model.addAttribute("notPublished", published.isEmpty());
+        if (published.isEmpty()) {
+            model.addAttribute("notPublished", true);
+            return "public-groups";
+        }
+
+        // Group racers by group number
+        Map<Integer, List<Racer>> groupedRacers =
+                published.stream()
+                        .collect(Collectors.groupingBy(Racer::getGroupNumber));
+
+        model.addAttribute("groupedRacers", groupedRacers);
 
         return "public-groups";
+    }
+
+
+    // ================= DELETE GROUPS =================
+
+    @PostMapping("/admin/delete-groups")
+    public String deleteGroups() {
+
+        List<Racer> racers =
+                racerRepository.findByGroupNumberIsNotNull();
+
+        for (Racer r : racers) {
+            r.setGroupNumber(null);
+            r.setGroupsPublished(false);
+        }
+
+        racerRepository.saveAll(racers);
+
+        return "redirect:/admin/groups";
     }
 }

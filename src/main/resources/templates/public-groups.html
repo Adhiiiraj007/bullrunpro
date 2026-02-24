@@ -1,116 +1,137 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Official Race Groups | BullRunPro</title>
+    <title>Bull Run Pro - Race Groups</title>
 
     <style>
         body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
             margin: 0;
-            font-family: Arial;
-            background: #111;
-        }
-
-        .header {
-            background: linear-gradient(90deg, #ff6600, #ff8533);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .container {
-            width: 95%;
-            max-width: 1000px;
-            margin: 40px auto;
-            background: white;
             padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2c3e50;
+        }
+
+        .group-container {
+            margin-bottom: 40px;
+            padding: 25px;
             border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .group-container:hover {
+            transform: scale(1.01);
+        }
+
+        /* Alternate background colors */
+        .group-container:nth-child(odd) {
+            background: #ffffff;
+        }
+
+        .group-container:nth-child(even) {
+            background: #fdf2e9;
         }
 
         h2 {
-            text-align: center;
-            color: #ff6600;
-        }
-
-        .message {
-            text-align: center;
-            font-size: 18px;
-            color: red;
-            margin-top: 40px;
+            margin-bottom: 15px;
+            color: #d35400;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: center;
+            border-radius: 8px;
+            overflow: hidden;
         }
 
         th {
-            background: #ff6600;
+            background-color: #2c3e50;
             color: white;
+            padding: 12px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
         }
 
         tr:nth-child(even) {
-            background: #f5f5f5;
+            background-color: #f8f9fa;
         }
 
-        .home-btn {
-            display: block;
-            width: 200px;
-            margin: 30px auto 0;
-            padding: 10px;
+        tr:hover {
+            background-color: #ffe8cc;
+        }
+
+        .not-published {
             text-align: center;
-            background: black;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
+            font-size: 20px;
+            color: red;
+            margin-top: 50px;
         }
 
-        .home-btn:hover {
-            background: #ff6600;
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 8px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="header">
-    🐂 Bull Run Pro – Official Race Groups
+<h1>🏁 Bull Run Pro - Race Groups</h1>
+
+<div th:if="${notPublished}" class="not-published">
+    Groups are not published yet.
 </div>
 
-<div class="container">
+<div th:each="entry : ${groupedRacers}" class="group-container">
 
-    <h2>🏁 Race Groups</h2>
+    <h2>
+        Group <span th:text="${entry.key}"></span>
+        (<span th:text="${#lists.size(entry.value)}"></span> Racers)
+    </h2>
 
-    <!-- IF NOT PUBLISHED -->
-    <div th:if="${notPublished}" class="message">
-        Groups are not published yet. Please check back later.
-    </div>
-
-    <!-- IF PUBLISHED -->
-    <table th:if="${racers != null}">
+    <table>
+        <thead>
         <tr>
-            <th>Group No</th>
+            <th>Registration Number</th>
             <th>Racer Name</th>
-            <th>Village</th>
+            <th>Mobile Number</th>
         </tr>
-
-        <tr th:each="r : ${racers}">
-            <td th:text="${r.groupNumber}"></td>
-            <td th:text="${r.racerName}"></td>
-            <td th:text="${r.village}"></td>
+        </thead>
+        <tbody>
+        <tr th:each="racer : ${entry.value}">
+            <td th:text="${racer.registrationNumber}"></td>
+            <td th:text="${racer.racerName}"></td>
+            <td th:text="${racer.phoneNumber}"></td>
         </tr>
+        </tbody>
     </table>
 
-    <a th:href="@{/}" class="home-btn">
-        ← Back Home
-    </a>
+</div>
 
+<div class="footer">
+    © 2026 Bull Run Pro | Official Race Groups
 </div>
 
 </body>
