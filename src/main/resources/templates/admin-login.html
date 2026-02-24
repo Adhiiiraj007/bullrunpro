@@ -2,101 +2,281 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Organiser Login | BullRunPro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #111 60%, #ff6600 40%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
         }
 
-        .login-card {
-            background: white;
-            padding: 40px 35px;
-            width: 350px;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            text-align: center;
+        body{
+            height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:linear-gradient(135deg,#111 60%,#ff6600 40%);
+            transition:0.4s;
         }
 
-        .login-card h2 {
-            margin-bottom: 25px;
-            color: #ff6600;
-            letter-spacing: 1px;
+        /* DARK MODE */
+        body.dark{
+            background:linear-gradient(135deg,#000 60%,#333 40%);
         }
 
-        .login-card input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 18px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 14px;
-            transition: 0.3s;
+        /* GLOW EFFECT */
+        body::before{
+            content:"";
+            position:absolute;
+            width:300px;
+            height:300px;
+            background:#ff6600;
+            filter:blur(150px);
+            top:-50px;
+            right:-50px;
+            opacity:0.5;
+            z-index:-1;
         }
 
-        .login-card input:focus {
-            border-color: #ff6600;
-            outline: none;
-            box-shadow: 0 0 8px rgba(255,102,0,0.4);
+        /* TOP BUTTONS */
+        .top-left{
+            position:absolute;
+            top:20px;
+            left:20px;
+        }
+        .top-right{
+            position:absolute;
+            top:20px;
+            right:20px;
         }
 
-        .login-card button {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(45deg, #ff6600, #ff8533);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
+        .nav-btn{
+            background:black;
+            color:white;
+            padding:8px 14px;
+            border-radius:6px;
+            text-decoration:none;
+            font-size:13px;
+            font-weight:bold;
+            transition:0.3s;
+        }
+        .nav-btn:hover{
+            background:white;
+            color:#ff6600;
         }
 
-        .login-card button:hover {
-            background: black;
-            color: #ff6600;
+        .toggle-mode{
+            background:white;
+            border:none;
+            padding:6px 10px;
+            margin-left:8px;
+            border-radius:5px;
+            cursor:pointer;
+            font-size:12px;
+            font-weight:bold;
         }
 
-        .logo {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: black;
+        /* LOGIN CARD */
+        .login-card{
+            width:380px;
+            padding:45px 35px;
+            border-radius:20px;
+            backdrop-filter:blur(20px);
+            background:rgba(255,255,255,0.15);
+            box-shadow:0 25px 60px rgba(0,0,0,0.6);
+            color:white;
+            text-align:center;
+            animation:fadeIn 0.7s ease;
         }
 
-        .footer-text {
-            margin-top: 20px;
-            font-size: 12px;
-            color: gray;
+        @keyframes fadeIn{
+            from{opacity:0;transform:translateY(20px);}
+            to{opacity:1;transform:translateY(0);}
         }
+
+        .logo{
+            font-size:20px;
+            font-weight:bold;
+            margin-bottom:10px;
+        }
+
+        h2{
+            margin-bottom:25px;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            margin-bottom:18px;
+            border-radius:8px;
+            border:none;
+            font-size:14px;
+        }
+
+        .password-wrapper{
+            position:relative;
+        }
+
+        .show-pass{
+            position:absolute;
+            right:10px;
+            top:12px;
+            cursor:pointer;
+            font-size:12px;
+            color:#444;
+        }
+
+        .remember{
+            display:flex;
+            justify-content:space-between;
+            font-size:13px;
+            margin-bottom:15px;
+        }
+
+        .remember label{
+            display:flex;
+            align-items:center;
+            gap:5px;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            background:linear-gradient(45deg,#ff6600,#ff8533);
+            border:none;
+            border-radius:8px;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+        button:hover{
+            background:black;
+            color:#ff6600;
+        }
+
+        .forgot{
+            margin-top:12px;
+            font-size:13px;
+        }
+
+        .forgot a{
+            color:#fff;
+            text-decoration:underline;
+        }
+
+        .error{
+            background:#ffe6e6;
+            color:red;
+            padding:8px;
+            border-radius:6px;
+            margin-bottom:15px;
+            font-size:13px;
+        }
+
+        .success{
+            background:#e6ffe6;
+            color:green;
+            padding:8px;
+            border-radius:6px;
+            margin-bottom:15px;
+            font-size:13px;
+        }
+
+        @media(max-width:450px){
+            .login-card{
+                width:90%;
+            }
+        }
+
     </style>
 </head>
 
 <body>
 
+<div class="top-left">
+    <a th:href="@{/}" class="nav-btn" id="homeText">🏠 Home</a>
+</div>
+
+<div class="top-right">
+    <button class="toggle-mode" onclick="toggleMode()">🌙</button>
+    <button class="toggle-mode" onclick="switchLang('en')">EN</button>
+    <button class="toggle-mode" onclick="switchLang('mr')">मराठी</button>
+</div>
+
 <div class="login-card">
 
     <div class="logo">🐂 Bull Run Pro</div>
 
-    <h2>Organiser Login</h2>
+    <h2 id="titleText">Organiser Login</h2>
+
+    <div th:if="${param.error}" class="error" id="errorText">
+        Invalid Username or Password
+    </div>
+
+    <div th:if="${param.logout}" class="success" id="logoutText">
+        Successfully Logged Out
+    </div>
 
     <form th:action="@{/login}" method="post">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
 
-        <button type="submit">Login</button>
+        <input type="text" name="username" placeholder="Username" id="userField" required>
+
+        <div class="password-wrapper">
+            <input type="password" name="password" placeholder="Password" id="passField" required>
+            <span class="show-pass" onclick="togglePassword()">Show</span>
+        </div>
+
+        <div class="remember">
+            <label>
+                <input type="checkbox" name="remember-me">
+                <span id="rememberText">Remember Me</span>
+            </label>
+            <a href="#" id="forgotText">Forgot?</a>
+        </div>
+
+        <button type="submit" id="loginBtn">Login</button>
     </form>
 
-    <div class="footer-text">
-        Admin Access Only
+    <div class="forgot">
+        <small id="adminOnly">Admin Access Only</small>
     </div>
 
 </div>
+
+<script>
+
+    function togglePassword(){
+        let pass=document.getElementById("passField");
+        pass.type=pass.type==="password"?"text":"password";
+    }
+
+    function toggleMode(){
+        document.body.classList.toggle("dark");
+    }
+
+    function switchLang(lang){
+        if(lang==='mr'){
+            document.getElementById("titleText").innerText="प्रशासक लॉगिन";
+            document.getElementById("loginBtn").innerText="लॉगिन करा";
+            document.getElementById("homeText").innerText="🏠 मुख्यपृष्ठ";
+            document.getElementById("rememberText").innerText="मला लक्षात ठेवा";
+            document.getElementById("forgotText").innerText="पासवर्ड विसरलात?";
+            document.getElementById("adminOnly").innerText="फक्त प्रशासक प्रवेश";
+            document.getElementById("userField").placeholder="वापरकर्ता नाव";
+            document.getElementById("passField").placeholder="पासवर्ड";
+            if(document.getElementById("errorText"))
+                document.getElementById("errorText").innerText="अवैध वापरकर्ता नाव किंवा पासवर्ड";
+            if(document.getElementById("logoutText"))
+                document.getElementById("logoutText").innerText="यशस्वीरित्या लॉगआउट झाले";
+        }else{
+            location.reload();
+        }
+    }
+
+</script>
 
 </body>
 </html>

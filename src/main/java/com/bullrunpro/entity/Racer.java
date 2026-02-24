@@ -9,36 +9,19 @@ public class Racer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false, updatable = false)
-    private String registrationNumber;
-
     private String racerName;
     private String phoneNumber;
     private String village;
 
-    private boolean withdrawn = false;
+    // Razorpay Details
+    private String paymentId;
+    private String orderId;
+    private String signature;
 
-    // ✅ NEW: Group Number
-    private Integer groupNumber;
-
-    // ✅ NEW: Group publish control (admin controlled)
-    private boolean groupsPublished = false;
-
-    public Racer() {}
-
-    // Auto-generate Registration Number
-    @PrePersist
-    public void generateRegistrationNumber() {
-        if (this.registrationNumber == null) {
-            this.registrationNumber = "BRP-" + System.currentTimeMillis();
-        }
-    }
-
-    // ---------------- GETTERS & SETTERS ----------------
+    // ===== GETTERS & SETTERS =====
 
     public Long getId() { return id; }
-
-    public String getRegistrationNumber() { return registrationNumber; }
+    public void setId(Long id) { this.id = id; }
 
     public String getRacerName() { return racerName; }
     public void setRacerName(String racerName) { this.racerName = racerName; }
@@ -49,16 +32,12 @@ public class Racer {
     public String getVillage() { return village; }
     public void setVillage(String village) { this.village = village; }
 
-    public boolean isWithdrawn() { return withdrawn; }
-    public void setWithdrawn(boolean withdrawn) { this.withdrawn = withdrawn; }
+    public String getPaymentId() { return paymentId; }
+    public void setPaymentId(String paymentId) { this.paymentId = paymentId; }
 
-    // ✅ Group Number
-    public Integer getGroupNumber() { return groupNumber; }
-    public void setGroupNumber(Integer groupNumber) { this.groupNumber = groupNumber; }
+    public String getOrderId() { return orderId; }
+    public void setOrderId(String orderId) { this.orderId = orderId; }
 
-    // ✅ Publish Control
-    public boolean isGroupsPublished() { return groupsPublished; }
-    public void setGroupsPublished(boolean groupsPublished) {
-        this.groupsPublished = groupsPublished;
-    }
+    public String getSignature() { return signature; }
+    public void setSignature(String signature) { this.signature = signature; }
 }
