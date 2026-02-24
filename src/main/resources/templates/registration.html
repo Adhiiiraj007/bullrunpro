@@ -3,18 +3,32 @@
 <head>
     <title>Sports Event Registration | BullRunPro</title>
 
-    <!-- Language Switch -->
-    <div style="position:absolute; right:20px; top:18px;">
-        <button type="button" onclick="switchLanguage('en')">English</button>
-        <button type="button" onclick="switchLanguage('mr')">मराठी</button>
-    </div>
-
     <style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background: url('/images/background.jpg') no-repeat center center fixed;
             background-size: cover;
+        }
+
+        .language-switch {
+            position: absolute;
+            right: 20px;
+            top: 18px;
+        }
+
+        .language-switch button {
+            padding: 6px 10px;
+            margin-left: 5px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            background: #444;
+            color: white;
+        }
+
+        .language-switch button:hover {
+            background: black;
         }
 
         .container {
@@ -76,12 +90,20 @@
             background-color: #e65c00;
         }
 
-        .link {
-            margin-top: 15px;
+        .home-btn {
             display: block;
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
             text-decoration: none;
-            color: #333;
             font-weight: bold;
+            background-color: #444;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .home-btn:hover {
+            background-color: black;
         }
 
         .terms {
@@ -93,6 +115,12 @@
 </head>
 
 <body>
+
+<!-- Language Switch -->
+<div class="language-switch">
+    <button type="button" onclick="switchLanguage('en')">English</button>
+    <button type="button" onclick="switchLanguage('mr')">मराठी</button>
+</div>
 
 <div class="container">
 
@@ -121,7 +149,8 @@
               th:object="${racer}"
               method="post">
 
-            <input type="text" th:field="*{racerName}"
+            <input type="text"
+                   th:field="*{racerName}"
                    id="racerName"
                    placeholder="Participant Name"
                    required>
@@ -134,7 +163,8 @@
                    maxlength="10"
                    required>
 
-            <input type="text" th:field="*{village}"
+            <input type="text"
+                   th:field="*{village}"
                    id="village"
                    placeholder="Village"
                    required>
@@ -143,8 +173,8 @@
                 <label>
                     <input type="checkbox" id="agreeTerms" required>
                     <span id="termsText">
-                    I agree that this payment is for event registration
-                    and management services only.
+                        I agree that this payment is for event registration
+                        and management services only.
                     </span>
                 </label>
             </div>
@@ -152,6 +182,9 @@
             <button type="button" class="pay-btn" onclick="payNow()">
                 Pay ₹15 & Register
             </button>
+
+            <!-- Home Button -->
+            <a th:href="@{/}" class="home-btn">🏠 Back to Home</a>
 
         </form>
 
@@ -183,9 +216,7 @@
             return;
         }
 
-        fetch("/create-order", {
-            method: "POST"
-        })
+        fetch("/create-order", { method: "POST" })
         .then(response => response.json())
         .then(order => {
 
@@ -196,7 +227,7 @@
                 "name": "Bull Run Pro",
                 "description": "Registration Fee",
                 "order_id": order.id,
-                "handler": function (response) {
+                "handler": function () {
                     document.getElementById("registrationForm").submit();
                 },
                 "theme": {
@@ -234,8 +265,6 @@
             document.getElementById("village").placeholder = "गाव";
 
             document.querySelector(".pay-btn").innerText = "₹15 भरा व नोंदणी करा";
-            document.getElementById("viewLink").innerText = "नोंदणीकृत स्पर्धक पहा";
-
             document.getElementById("termsText").innerText =
             "मी सहमत आहे की ही रक्कम फक्त कार्यक्रम नोंदणी व व्यवस्थापनासाठी आहे.";
 
@@ -253,8 +282,6 @@
             document.getElementById("village").placeholder = "Village";
 
             document.querySelector(".pay-btn").innerText = "Pay ₹15 & Register";
-            document.getElementById("viewLink").innerText = "View Registered Participants";
-
             document.getElementById("termsText").innerText =
             "I agree that this payment is for event registration and management services only.";
         }
