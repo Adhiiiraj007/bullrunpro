@@ -52,10 +52,25 @@ public class AdminController {
     @GetMapping("/admin/groups")
     public String viewGroups(Model model) {
 
-        List<Racer> grouped =
+        List<Racer> racers =
                 racerRepository.findByGroupNumberIsNotNull();
 
-        model.addAttribute("racers", grouped);
+        if (racers.isEmpty()) {
+            model.addAttribute("noGroups", true);
+            return "admin-groups";
+        }
+
+        // Sort by group number
+        racers.sort((r1, r2) ->
+                r1.getGroupNumber().compareTo(r2.getGroupNumber()));
+
+        // Group by group number
+        Map<Integer, List<Racer>> groupedRacers =
+                racers.stream()
+                        .collect(Collectors.groupingBy(Racer::getGroupNumber));
+
+        model.addAttribute("groupedRacers", groupedRacers);
+
         model.addAttribute("published",
                 racerRepository.findByGroupsPublishedTrue().size() > 0);
 

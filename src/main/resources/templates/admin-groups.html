@@ -1,183 +1,224 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Admin - Manage Groups</title>
+    <title>Admin | Manage Groups</title>
 
     <style>
         body {
-            font-family: Arial;
+            font-family: Arial, sans-serif;
+            margin: 0;
             background: #f4f6f9;
-            padding: 30px;
         }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
+        /* ===== HEADER ===== */
+        .header {
+            background: #222;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .card {
-            background: white;
+        .header h2 {
+            margin: 0;
+        }
+
+        .header-buttons a {
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+
+        .dashboard-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .dashboard-btn:hover { background: #0056b3; }
+        .logout-btn:hover { background: #a71d2a; }
+
+        /* ===== PAGE CONTENT ===== */
+        .container {
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
         }
 
-        input[type="number"] {
-            padding: 6px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
+        h1 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .status {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .top-actions {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .top-actions form {
+            display: inline-block;
+            margin: 5px;
         }
 
         button {
             padding: 8px 14px;
-            border-radius: 5px;
             border: none;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
         }
 
-        .generate-btn { background: #3498db; color: white; }
-        .publish-btn { background: green; color: white; }
-        .unpublish-btn { background: red; color: white; }
-        .delete-btn { background: #e67e22; color: white; }
-        .print-btn { background: #2c3e50; color: white; }
+        .generate-btn { background: #007bff; color: white; }
+        .publish-btn { background: #28a745; color: white; }
+        .unpublish-btn { background: #ffc107; color: black; }
+        .delete-btn { background: #dc3545; color: white; }
 
-        .group-container {
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
+        input[type="number"] {
+            padding: 6px;
+            width: 80px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
         }
 
-        .group-container:nth-child(odd) { background: #ffffff; }
-        .group-container:nth-child(even) { background: #fdf2e9; }
+        /* ===== GROUP CARDS ===== */
+        .group-container {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .group-container:nth-child(even) {
+            background: #ffffff;
+        }
+
+        .group-container:nth-child(odd) {
+            background: #e9f2ff;
+        }
+
+        .group-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
+            background: white;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border: 1px solid #ddd;
         }
 
         th {
-            background: #2c3e50;
+            background: #333;
             color: white;
-            padding: 10px;
         }
 
-        td {
-            padding: 8px;
+        .no-groups {
             text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tr:nth-child(even) { background: #f8f9fa; }
-
-        .actions {
-            margin-top: 15px;
+            font-size: 18px;
+            color: red;
+            margin-top: 20px;
         }
     </style>
-
-    <script>
-        function confirmGenerate() {
-            return confirm("Are you sure? Old groups will be replaced.");
-        }
-
-        function confirmDelete() {
-            return confirm("Delete all groups?");
-        }
-
-        function printGroup(id) {
-            var content = document.getElementById(id).innerHTML;
-            var win = window.open('', '', 'height=600,width=800');
-            win.document.write(content);
-            win.print();
-            win.close();
-        }
-    </script>
-
 </head>
+
 <body>
 
-<h2>🏁 Admin - Manage Race Groups</h2>
-
-<div class="card">
-
-    <!-- Generate Groups -->
-    <form th:action="@{/admin/generate-groups}" method="post"
-          onsubmit="return confirmGenerate();">
-        <label><strong>Group Size:</strong></label>
-        <input type="number" name="groupSize" min="2" required>
-        <button type="submit" class="generate-btn">Generate Groups</button>
-    </form>
-
-    <br>
-
-    <!-- Publish / Unpublish -->
-    <div th:if="${!published}">
-        <form th:action="@{/admin/publish-groups}" method="post">
-            <button type="submit" class="publish-btn">
-                Publish Groups
-            </button>
-        </form>
+<!-- ===== HEADER BAR ===== -->
+<div class="header">
+    <h2>Admin Panel - Race Groups</h2>
+    <div class="header-buttons">
+        <a th:href="@{/admin/dashboard}" class="dashboard-btn">Dashboard</a>
+        <a th:href="@{/admin-portal}" class="logout-btn">Logout</a>
     </div>
-
-    <div th:if="${published}">
-        <form th:action="@{/admin/unpublish-groups}" method="post">
-            <button type="submit" class="unpublish-btn">
-                Unpublish Groups
-            </button>
-        </form>
-    </div>
-
-    <br>
-
-    <!-- Delete Groups -->
-    <form th:action="@{/admin/delete-groups}" method="post"
-          onsubmit="return confirmDelete();">
-        <button type="submit" class="delete-btn">
-            Delete All Groups
-        </button>
-    </form>
-
 </div>
 
-<hr>
+<div class="container">
 
-<h3>Generated Groups</h3>
+    <h1>Manage Race Groups</h1>
 
-<div th:each="entry : ${groupedRacers}"
-     th:id="'group-' + ${entry.key}"
-     class="group-container">
+    <!-- Publish Status -->
+    <div class="status">
+        <span th:if="${published}" style="color:green;">
+            Groups are Published
+        </span>
+        <span th:unless="${published}" style="color:red;">
+            Groups are Not Published
+        </span>
+    </div>
 
-    <h3>
-        Group <span th:text="${entry.key}"></span>
-        ( <span th:text="${#lists.size(entry.value)}"></span> Racers )
-    </h3>
+    <!-- Top Action Buttons -->
+    <div class="top-actions">
 
-    <table>
-        <thead>
-        <tr>
-            <th>Registration Number</th>
-            <th>Name</th>
-            <th>Village</th>
-        </tr>
-        </thead>
+        <!-- Generate -->
+        <form th:action="@{/admin/generate-groups}" method="post">
+            Group Size:
+            <input type="number" name="groupSize" min="2" required>
+            <button type="submit" class="generate-btn">Generate Groups</button>
+        </form>
 
-        <tbody>
-        <tr th:each="r : ${entry.value}">
-            <td th:text="${r.registrationNumber}"></td>
-            <td th:text="${r.racerName}"></td>
-            <td th:text="${r.village}"></td>
-        </tr>
-        </tbody>
-    </table>
+        <!-- Publish -->
+        <form th:action="@{/admin/publish-groups}" method="post">
+            <button type="submit" class="publish-btn">Publish</button>
+        </form>
 
-    <div class="actions">
-        <button class="print-btn"
-                th:onclick="'printGroup(\'group-' + ${entry.key} + '\')'">
-            Print Group
-        </button>
+        <!-- Unpublish -->
+        <form th:action="@{/admin/unpublish-groups}" method="post">
+            <button type="submit" class="unpublish-btn">Unpublish</button>
+        </form>
+
+        <!-- Delete -->
+        <form th:action="@{/admin/delete-groups}" method="post">
+            <button type="submit" class="delete-btn"
+                    onclick="return confirm('Are you sure you want to delete all groups?')">
+                Delete Groups
+            </button>
+        </form>
+
+    </div>
+
+    <!-- No Groups -->
+    <div th:if="${noGroups}" class="no-groups">
+        No groups generated yet.
+    </div>
+
+    <!-- Groups Display -->
+    <div th:each="group : ${groupedRacers}" class="group-container">
+
+        <div class="group-title">
+            Group [[${group.key}]]
+        </div>
+
+        <table>
+            <tr>
+                <th>Registration No</th>
+                <th>Name</th>
+                <th>Mobile</th>
+            </tr>
+
+            <tr th:each="racer : ${group.value}">
+                <td th:text="${racer.registrationNumber}"></td>
+                <td th:text="${racer.racerName}"></td>
+                <td th:text="${racer.phoneNumber}"></td>
+            </tr>
+        </table>
+
     </div>
 
 </div>
