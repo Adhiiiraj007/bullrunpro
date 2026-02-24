@@ -33,7 +33,11 @@ public class AdminController {
                 racerRepository.findByWithdrawnFalse().size());
 
         model.addAttribute("groupsCreated",
-                racerRepository.findByGroupNumberIsNotNull().size());
+                racerRepository.findByGroupNumberIsNotNull()
+                        .stream()
+                        .map(Racer::getGroupNumber)
+                        .distinct()
+                        .count());
 
         model.addAttribute("groupsPublished",
                 racerRepository.findByGroupsPublishedTrue().size() > 0);
@@ -44,7 +48,11 @@ public class AdminController {
     // ================= VIEW RACERS =================
     @GetMapping("/admin/racers")
     public String viewAllRacers(Model model) {
-        model.addAttribute("racers", racerRepository.findAll());
+
+        List<Racer> racers =
+                racerRepository.findAllByOrderByIdAsc(); // 🔥 important
+
+        model.addAttribute("racers", racers);
         return "admin-racers";
     }
 
@@ -85,21 +93,22 @@ public class AdminController {
             return "redirect:/admin/groups";
         }
 
-        List<Racer> racers = racerRepository.findByWithdrawnFalse();
+        // 🔥 Get racers in registration order
+        List<Racer> racers =
+                racerRepository.findByWithdrawnFalse()
+                        .stream()
+                        .sorted((r1, r2) -> r1.getId().compareTo(r2.getId()))
+                        .collect(Collectors.toList());
 
         if (racers.isEmpty()) {
             return "redirect:/admin/groups";
         }
 
-        // Randomize list
+        // 🔥 Shuffle ONLY for grouping logic (memory only)
         Collections.shuffle(racers);
 
-        int groupNumber = 1;
-
         for (int i = 0; i < racers.size(); i++) {
-
             Racer racer = racers.get(i);
-
             racer.setGroupNumber((i / groupSize) + 1);
             racer.setGroupsPublished(false);
         }

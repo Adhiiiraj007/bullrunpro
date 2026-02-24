@@ -6,154 +6,270 @@
     <title>Traditional Ox Cart Racing</title>
 
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif;}
-        body{background:#fff7e6;color:#333;}
-        header{background:#8b4513;color:white;padding:18px;text-align:center;font-size:26px;font-weight:bold;position:relative;}
-        .top-buttons{position:absolute;right:20px;top:15px;display:flex;gap:10px;}
-        .top-buttons button,.top-buttons a{font-size:13px;padding:6px 10px;border-radius:5px;border:none;cursor:pointer;text-decoration:none;}
-        .admin-btn{background:#333;color:white;opacity:0.8;}
-        .hero{background:#000 url("images/img7.jpeg") center/cover no-repeat;height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;color:white;padding:20px;}
-        .hero-content{background:rgba(0,0,0,0.6);padding:40px;border-radius:12px;}
-        .hero h1{font-size:42px;margin-bottom:15px;}
-        .hero p{font-size:18px;margin-bottom:25px;}
-        .main-btn{background:orange;border:none;padding:12px 25px;font-size:16px;color:white;border-radius:6px;cursor:pointer;margin:5px;}
-        .main-btn:hover{background:darkorange;}
-        .groups-btn{background:#4CAF50;}
-        .groups-btn:hover{background:#3e8e41;}
-        section{padding:60px 20px;text-align:center;}
-        h2{color:#8b4513;margin-bottom:20px;font-size:30px;}
-        .about p{max-width:800px;margin:auto;font-size:18px;line-height:1.6;}
-        .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin-top:20px;}
-        .card{background:white;width:250px;padding:20px;border-radius:10px;box-shadow:0 0 10px rgba(0,0,0,0.1);}
-        .card h3{color:#8b4513;margin-bottom:10px;}
-        .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;padding:0 20px;}
-        .gallery img{width:100%;height:220px;object-fit:cover;border-radius:12px;}
-        footer{background:#8b4513;color:white;text-align:center;padding:20px;}
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body{
+            background:#ffffff;
+            color:#222;
+        }
+
+        /* ===== HEADER ===== */
+        header{
+            background:#000;
+            color:white;
+            padding:15px 20px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            flex-wrap:wrap;
+        }
+
+        .logo-section{
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .logo{
+            width:60px;   /* Small Logo */
+            height:60px;
+            object-fit:cover;
+            border-radius:50%;
+        }
+
+        header h1{
+            font-size:18px;
+            letter-spacing:1px;
+        }
+
+        .top-buttons{
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+        }
+
+        .top-buttons button,
+        .top-buttons a{
+            font-size:12px;
+            padding:6px 10px;
+            border-radius:5px;
+            border:none;
+            cursor:pointer;
+            text-decoration:none;
+        }
+
+        .admin-btn{
+            background:orange;
+            color:black;
+            font-weight:bold;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero{
+            padding:80px 20px;
+            text-align:center;
+            background:#f8f8f8;
+        }
+
+        .hero h2{
+            font-size:34px;
+            margin-bottom:15px;
+        }
+
+        .hero p{
+            font-size:18px;
+            margin-bottom:30px;
+        }
+
+        .main-btn{
+            background:orange;
+            border:none;
+            padding:12px 25px;
+            font-size:15px;
+            color:black;
+            font-weight:bold;
+            border-radius:6px;
+            cursor:pointer;
+            margin:8px;
+        }
+
+        .main-btn:hover{
+            background:#ff8c00;
+        }
+
+        .groups-btn{
+            background:black;
+            color:white;
+        }
+
+        .groups-btn:hover{
+            background:#333;
+        }
+
+        /* ===== SECTIONS ===== */
+        section{
+            padding:60px 20px;
+            text-align:center;
+        }
+
+        h2{
+            margin-bottom:25px;
+        }
+
+        .cards{
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:center;
+            gap:20px;
+        }
+
+        .card{
+            background:white;
+            width:260px;
+            padding:25px;
+            border-radius:12px;
+            border:1px solid #eee;
+            box-shadow:0 4px 12px rgba(0,0,0,0.05);
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:translateY(-5px);
+        }
+
+        .card h3{
+            color:orange;
+            margin-bottom:10px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer{
+            background:black;
+            color:white;
+            text-align:center;
+            padding:20px;
+            margin-top:40px;
+        }
+
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media(max-width:768px){
+
+            header{
+                flex-direction:column;
+                align-items:flex-start;
+                gap:10px;
+            }
+
+            header h1{
+                font-size:16px;
+            }
+
+            .hero h2{
+                font-size:26px;
+            }
+
+            .hero p{
+                font-size:16px;
+            }
+
+            .card{
+                width:90%;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-<header id="headerTitle">
-    || TRADITIONAL OX CART RACING EVENT ||
+<header>
+
+    <div class="logo-section">
+        <!-- 🔥 SMALL LOGO -->
+        <img src="images/img8.jpeg" class="logo" alt="Logo">
+        <h1 id="headerTitle">TRADITIONAL OX CART RACING</h1>
+    </div>
 
     <div class="top-buttons">
         <button onclick="switchLanguage('en')">English</button>
         <button onclick="switchLanguage('mr')">मराठी</button>
-        <a th:href="@{/admin-portal}" class="admin-btn" id="adminBtn">Admin Login</a>
+        <a th:href="@{/admin-portal}" class="admin-btn">Admin Login</a>
     </div>
+
 </header>
 
 <div class="hero">
-    <div class="hero-content">
-        <h1 id="heroTitle">Welcome to the Grand Ox Cart Race</h1>
-        <p id="heroDesc">Register racers, create automatic groups, and manage races easily.</p>
+    <h2 id="heroTitle">Welcome to the Grand Ox Cart Race</h2>
+    <p id="heroDesc">
+        Register racers, create automatic groups and manage races digitally with ease.
+    </p>
 
-        <a th:href="@{/registration}">
-            <button class="main-btn" id="registerBtn">Register Now</button>
-        </a>
+    <a th:href="@{/registration}">
+        <button class="main-btn" id="registerBtn">Register Now</button>
+    </a>
 
-        <a th:href="@{/groups}">
-            <button class="main-btn groups-btn" id="groupBtn">View Race Groups</button>
-        </a>
-    </div>
+    <a th:href="@{/groups}">
+        <button class="main-btn groups-btn" id="groupBtn">View Race Groups</button>
+    </a>
 </div>
 
-<section class="about">
-    <h2 id="aboutTitle">About the Event</h2>
-    <p id="aboutText">
-        Traditional ox cart racing is a historic rural sport celebrating village culture,
-        strength, and speed. This digital system helps organizers register racers
-        and automatically group them for fair competition.
-    </p>
-</section>
-
 <section>
-    <h2 id="highlightTitle">Event Highlights</h2>
+    <h2>Event Highlights</h2>
+
     <div class="cards">
         <div class="card">
-            <h3 id="h1">Easy Registration</h3>
-            <p id="p1">Quick racer entry with simple digital forms.</p>
+            <h3>Easy Registration</h3>
+            <p>Simple digital registration for racers.</p>
         </div>
+
         <div class="card">
-            <h3 id="h2">Auto Grouping</h3>
-            <p id="p2">Smart fair grouping created instantly.</p>
+            <h3>Automatic Grouping</h3>
+            <p>Random and fair group creation system.</p>
         </div>
+
         <div class="card">
-            <h3 id="h3">Live Management</h3>
-            <p id="p3">Organize races smoothly using technology.</p>
+            <h3>Professional Management</h3>
+            <p>Organize races smoothly using technology.</p>
         </div>
     </div>
 </section>
 
 <section>
-    <h2 id="galleryTitle">Race Gallery</h2>
-    <div class="gallery">
-        <img src="images/img1.jpg">
-        <img src="images/img2.jpg">
-        <img src="images/img3.jpg">
-        <img src="images/img4.jpg">
-    </div>
+    <h2>Contact Information</h2>
+    <p><b>Organizer:</b> Shri.Sant Sevagiri Maharaj Yatra Committee, Pusegaon</p>
+    <p><b>Location:</b> Pusegaon Hindkesari Maidan, Pusegaon, Satara</p>
+    <p><b>Phone:</b> +91 7666353335</p>
+    <p><b>Phone:</b> +91 8530218687</p>
 </section>
 
-<section>
-    <h2 id="contactTitle">Contact Information</h2>
-    <p id="org"><b>Organizer:</b> Shri.Sant Sevagiri Maharaj Yatra Committee, Pusegaon</p>
-    <p id="loc"><b>Location:</b> Pusegaon Hindkesari Maidan, Pusegaon, Satara</p>
-    <p id="ph1"><b>Phone:</b> +91 7666353335</p>
-    <p id="ph2"><b>Phone:</b> +91 8530218687</p>
-</section>
-
-<footer id="footerText">
-    © 2026 bullrunpro
+<footer>
+    © 2026 BullRunPro
 </footer>
 
 <script>
     function switchLanguage(lang){
+        if(lang === 'mr'){
+            document.getElementById("headerTitle").innerText =
+            "पारंपरिक बैलगाडी शर्यत";
 
-    if(lang === 'mr'){
+            document.getElementById("heroTitle").innerText =
+            "भव्य बैलगाडी शर्यतीत आपले स्वागत आहे";
 
-    document.getElementById("headerTitle").childNodes[0].nodeValue =
-    "|| पारंपरिक बैलगाडी शर्यत स्पर्धा ||";
+            document.getElementById("heroDesc").innerText =
+            "स्पर्धकांची नोंदणी करा, गट तयार करा आणि शर्यती सहज व्यवस्थापित करा.";
 
-    document.getElementById("adminBtn").innerText = "प्रशासक लॉगिन";
-    document.getElementById("heroTitle").innerText = "भव्य बैलगाडी शर्यतीत आपले स्वागत आहे";
-    document.getElementById("heroDesc").innerText = "स्पर्धकांची नोंदणी करा, गट तयार करा आणि शर्यती सहज व्यवस्थापित करा.";
-    document.getElementById("registerBtn").innerText = "आता नोंदणी करा";
-    document.getElementById("groupBtn").innerText = "शर्यतीचे गट पहा";
+            document.getElementById("registerBtn").innerText =
+            "आता नोंदणी करा";
 
-    document.getElementById("aboutTitle").innerText = "कार्यक्रमाबद्दल";
-    document.getElementById("aboutText").innerText =
-    "पारंपरिक बैलगाडी शर्यत हा ग्रामीण संस्कृतीचा ऐतिहासिक खेळ आहे. हा डिजिटल सिस्टम आयोजकांना स्पर्धकांची नोंदणी व गट तयार करण्यास मदत करतो.";
-
-    document.getElementById("highlightTitle").innerText = "कार्यक्रमाची वैशिष्ट्ये";
-    document.getElementById("h1").innerText = "सुलभ नोंदणी";
-    document.getElementById("p1").innerText = "सोप्या डिजिटल फॉर्मद्वारे जलद नोंदणी.";
-    document.getElementById("h2").innerText = "स्वयंचलित गट";
-    document.getElementById("p2").innerText = "न्याय्य स्पर्धेसाठी तत्काळ गट निर्मिती.";
-    document.getElementById("h3").innerText = "थेट व्यवस्थापन";
-    document.getElementById("p3").innerText = "तंत्रज्ञानाद्वारे शर्यतीचे सुलभ आयोजन.";
-
-    document.getElementById("galleryTitle").innerText = "शर्यत छायाचित्रे";
-    document.getElementById("contactTitle").innerText = "संपर्क माहिती";
-
-    document.getElementById("org").innerHTML =
-    "<b>आयोजक:</b> श्री संत सेवागिरी महाराज यात्रा समिती, पुसेगाव";
-    document.getElementById("loc").innerHTML =
-    "<b>ठिकाण:</b> पुसेगाव हिंदकेसरी मैदान, पुसेगाव, सातारा";
-    document.getElementById("ph1").innerHTML =
-    "<b>फोन:</b> +91 7666353335";
-    document.getElementById("ph2").innerHTML =
-    "<b>फोन:</b> +91 8530218687";
-
-    document.getElementById("footerText").innerText =
-    "© 2026 बुल रन प्रो";
-
-    }else{
-
-    location.reload();   // Reload to English default
-
-    }
+            document.getElementById("groupBtn").innerText =
+            "शर्यतीचे गट पहा";
+        } else {
+            location.reload();
+        }
     }
 </script>
 
