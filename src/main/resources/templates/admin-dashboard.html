@@ -7,19 +7,55 @@
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background-color: #111; /* Black background */
+            background-color: #111;
         }
 
+        /* ===== HEADER ===== */
         .header {
             background: linear-gradient(90deg, #ff6600, #ff8533);
             padding: 20px;
-            text-align: center;
             color: white;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
             letter-spacing: 1px;
         }
 
+        .header-buttons a {
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .home-btn {
+            background: black;
+            color: white;
+        }
+
+        .home-btn:hover {
+            background: white;
+            color: black;
+        }
+
+        .logout-top-btn {
+            background: #222;
+            color: white;
+        }
+
+        .logout-top-btn:hover {
+            background: red;
+            color: white;
+        }
+
+        /* ===== CONTENT ===== */
         .container {
             width: 90%;
             max-width: 900px;
@@ -96,8 +132,16 @@
 
 <body>
 
+<!-- HEADER WITH HOME BUTTON -->
 <div class="header">
-    🐂 Bull Run Pro – Admin Dashboard
+    <div class="header-title">
+        🐂 Bull Run Pro – Admin Dashboard
+    </div>
+
+    <div class="header-buttons">
+        <a th:href="@{/}" class="home-btn">Home</a>
+        <a th:href="@{/logout}" class="logout-top-btn">Logout</a>
+    </div>
 </div>
 
 <div class="container">
