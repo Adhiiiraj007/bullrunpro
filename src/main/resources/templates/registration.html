@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -6,95 +5,220 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
-        body{
+        *{
             margin:0;
-            font-family:Arial;
-            background:url('/images/background.jpg') no-repeat center center fixed;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            min-height:100vh;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            background:
+                linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
+                url('/images/background.jpg') no-repeat center center fixed;
+            background-size:cover;
+            transition:0.4s ease;
+        }
+
+        body.dark{
+            background:
+                linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),
+                url('/images/background.jpg') no-repeat center center fixed;
             background-size:cover;
         }
-        .container{
+
+        .top-bar{
+            position:absolute;
+            top:20px;
+            right:20px;
             display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-            min-height:100vh;
+            gap:8px;
         }
-        .form-box{
-            background:rgba(255,255,255,0.95);
-            padding:30px;
-            border-radius:15px;
-            width:400px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.3);
-        }
-        input{
-            width:100%;
-            padding:10px;
-            margin:8px 0;
-            border-radius:8px;
-            border:1px solid #ccc;
-        }
-        .pay-btn{
-            width:100%;
-            padding:10px;
-            margin-top:15px;
+
+        .toggle-btn{
+            background:white;
             border:none;
-            border-radius:8px;
+            padding:6px 10px;
+            border-radius:6px;
+            font-size:12px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .toggle-btn:hover{
             background:#ff6600;
             color:white;
+        }
+
+        .form-box{
+            width:400px;
+            padding:40px;
+            border-radius:20px;
+            backdrop-filter:blur(20px);
+            background:rgba(255,255,255,0.15);
+            border:1px solid rgba(255,255,255,0.2);
+            box-shadow:0 25px 60px rgba(0,0,0,0.6);
+            color:white;
+            animation:fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn{
+            from{opacity:0;transform:translateY(20px);}
+            to{opacity:1;transform:translateY(0);}
+        }
+
+        h2{
+            text-align:center;
+            margin-bottom:25px;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            margin-bottom:15px;
+            border-radius:8px;
+            border:none;
+            font-size:14px;
+        }
+
+        input:focus{
+            outline:none;
+            box-shadow:0 0 8px rgba(255,102,0,0.8);
+        }
+
+        label{
+            font-size:13px;
+            display:flex;
+            gap:6px;
+            margin-bottom:15px;
+        }
+
+        .pay-btn{
+            width:100%;
+            padding:12px;
+            border:none;
+            border-radius:8px;
+            background:linear-gradient(45deg,#ff6600,#ff8533);
+            color:white;
+            font-weight:bold;
             cursor:pointer;
+            transition:0.3s;
         }
+
         .pay-btn:hover{
-            background:#e65c00;
+            background:black;
+            color:#ff6600;
         }
+
         .home-btn{
             display:block;
-            margin-top:12px;
+            margin-top:15px;
             padding:10px;
             border-radius:8px;
             text-decoration:none;
             font-weight:bold;
-            background:#444;
+            background:black;
             color:white;
             text-align:center;
+            transition:0.3s;
+        }
+
+        .home-btn:hover{
+            background:#ff6600;
+        }
+
+        @media(max-width:450px){
+            .form-box{
+                width:90%;
+                padding:30px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="top-bar">
+    <button class="toggle-btn" onclick="toggleMode()">🌙</button>
+    <button class="toggle-btn" onclick="switchLang('en')">EN</button>
+    <button class="toggle-btn" onclick="switchLang('mr')">मराठी</button>
+</div>
 
-    <div class="form-box">
+<div class="form-box">
 
-        <h2>Event Registration</h2>
+    <h2 id="titleText">Event Registration</h2>
 
-        <form id="registrationForm"
-              th:action="@{/saveRacer}"
-              th:object="${racer}"
-              method="post">
+    <form id="registrationForm"
+          th:action="@{/saveRacer}"
+          th:object="${racer}"
+          method="post">
 
-            <input type="text" th:field="*{racerName}" id="racerName" placeholder="Participant Name" required>
-            <input type="tel" th:field="*{phoneNumber}" id="phoneNumber" placeholder="Phone Number" required>
-            <input type="text" th:field="*{village}" id="village" placeholder="Village" required>
+        <input type="text" th:field="*{racerName}" id="racerName" placeholder="Participant Name" required>
 
-            <label>
-                <input type="checkbox" id="agreeTerms" required>
-                I agree that this payment is for registration only.
-            </label>
+        <input type="tel" th:field="*{phoneNumber}" id="phoneNumber" placeholder="Phone Number" required>
 
-            <button type="button" class="pay-btn" onclick="payNow()">Pay ₹15 & Register</button>
+        <input type="text" th:field="*{village}" id="village" placeholder="Village" required>
 
-            <a th:href="@{/}" class="home-btn">🏠 Back to Home</a>
+        <label>
+            <input type="checkbox" id="agreeTerms" required>
+            <span id="termsText">I agree that this payment is for registration only.</span>
+        </label>
 
-        </form>
-    </div>
+        <button type="button" class="pay-btn" id="payText" onclick="payNow()">
+            Pay ₹15 & Register
+        </button>
+
+        <a th:href="@{/}" class="home-btn" id="homeText">🏠 Back to Home</a>
+
+    </form>
 </div>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
 <script>
+
+    /* DARK MODE SAVE */
+    if(localStorage.getItem("darkMode")==="enabled"){
+        document.body.classList.add("dark");
+    }
+
+    function toggleMode(){
+        document.body.classList.toggle("dark");
+        if(document.body.classList.contains("dark")){
+            localStorage.setItem("darkMode","enabled");
+        }else{
+            localStorage.setItem("darkMode","disabled");
+        }
+    }
+
+    /* LANGUAGE SAVE */
+    function switchLang(lang){
+        localStorage.setItem("language",lang);
+
+        if(lang==='mr'){
+            document.getElementById("titleText").innerText="स्पर्धा नोंदणी";
+            document.getElementById("termsText").innerText="ही रक्कम फक्त नोंदणीसाठी आहे.";
+            document.getElementById("payText").innerText="₹15 भरा आणि नोंदणी करा";
+            document.getElementById("homeText").innerText="🏠 मुख्यपृष्ठ";
+
+            document.getElementById("racerName").placeholder="स्पर्धक नाव";
+            document.getElementById("phoneNumber").placeholder="मोबाईल नंबर";
+            document.getElementById("village").placeholder="गाव";
+        }else{
+            location.reload();
+        }
+    }
+
+    if(localStorage.getItem("language")==="mr"){
+        switchLang("mr");
+    }
+
+    /* PAYMENT */
     function payNow(){
 
         let name = document.getElementById("racerName").value.trim();
@@ -117,63 +241,45 @@
             return;
         }
 
-        fetch("/create-order", { method:"POST" })
-        .then(res => res.json())
-        .then(order => {
+        fetch("/create-order",{method:"POST"})
+        .then(res=>res.json())
+        .then(order=>{
 
-            var options = {
+            var options={
+                key:"rzp_live_SK6h49R5C0Hihf",
+                amount:order.amount,
+                currency:"INR",
+                name:"Bull Run Pro",
+                description:"Registration Fee",
+                order_id:order.id,
 
-                // 🔴 VERY IMPORTANT: PUT YOUR LIVE KEY HERE
-                key: "rzp_live_SK6h49R5C0Hihf",
+                handler:function(response){
+                    let form=document.getElementById("registrationForm");
 
-                amount: order.amount,
-                currency: "INR",
-                name: "Bull Run Pro",
-                description: "Registration Fee",
-                order_id: order.id,
-
-                handler: function(response){
-
-                    let form = document.getElementById("registrationForm");
-
-                    let p1 = document.createElement("input");
-                    p1.type = "hidden";
-                    p1.name = "paymentId";
-                    p1.value = response.razorpay_payment_id;
-                    form.appendChild(p1);
-
-                    let p2 = document.createElement("input");
-                    p2.type = "hidden";
-                    p2.name = "orderId";
-                    p2.value = response.razorpay_order_id;
-                    form.appendChild(p2);
-
-                    let p3 = document.createElement("input");
-                    p3.type = "hidden";
-                    p3.name = "signature";
-                    p3.value = response.razorpay_signature;
-                    form.appendChild(p3);
+                    ["razorpay_payment_id","razorpay_order_id","razorpay_signature"]
+                    .forEach(field=>{
+                        let input=document.createElement("input");
+                        input.type="hidden";
+                        input.name=field;
+                        input.value=response[field];
+                        form.appendChild(input);
+                    });
 
                     form.submit();
                 },
 
-                // ✅ Added prefill (important for live mode)
-                prefill: {
-                    name: name,
-                    contact: phone
+                prefill:{
+                    name:name,
+                    contact:phone
                 },
 
-                theme: {
-                    color: "#ff6600"
-                }
+                theme:{color:"#ff6600"}
             };
 
-            var rzp = new Razorpay(options);
+            var rzp=new Razorpay(options);
             rzp.open();
-
         })
-        .catch(error => {
-            console.error("Order creation failed:", error);
+        .catch(()=>{
             alert("Unable to initiate payment. Try again.");
         });
     }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -27,22 +28,19 @@ public class AdminController {
 
     // ================= DASHBOARD =================
     @GetMapping("/admin/dashboard")
-    public String dashboard(Model model) {
+    public String dashboard(Model model){
 
-        model.addAttribute("totalRacers",
-                racerRepository.findByWithdrawnFalse().size());
+        long totalRacers = racerRepository.count();
+        long totalGroups = racerRepository.countByGroupNumberIsNotNull();
 
-        model.addAttribute("groupsCreated",
-                racerRepository.findByGroupNumberIsNotNull()
-                        .stream()
-                        .map(Racer::getGroupNumber)
-                        .distinct()
-                        .count());
+        List<Racer> todayRacers =
+                racerRepository.findByRegistrationDate(LocalDate.now());
 
-        model.addAttribute("groupsPublished",
-                racerRepository.findByGroupsPublishedTrue().size() > 0);
+        model.addAttribute("totalRacers", totalRacers);
+        model.addAttribute("totalGroups", totalGroups);
+        model.addAttribute("todayRacers", todayRacers);
 
-        return "admin-dashboard";
+        return "admin/dashboard";
     }
 
     // ================= VIEW RACERS =================

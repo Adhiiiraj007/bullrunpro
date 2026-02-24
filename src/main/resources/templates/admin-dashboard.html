@@ -17,7 +17,7 @@
             transition:0.4s ease;
         }
 
-        /* ===== STICKY HEADER ===== */
+        /* ===== HEADER ===== */
         header{
             position:sticky;
             top:0;
@@ -43,10 +43,6 @@
             height:45px;
             border-radius:50%;
             border:2px solid orange;
-        }
-
-        header h1{
-            font-size:18px;
         }
 
         .top-buttons{
@@ -85,14 +81,14 @@
             color:white !important;
         }
 
-        /* ===== DASHBOARD ===== */
+        /* ===== CONTAINER ===== */
         .container{
             width:90%;
-            max-width:1100px;
+            max-width:1200px;
             margin:40px auto;
-            text-align:center;
         }
 
+        /* ===== STAT CARDS ===== */
         .dashboard-cards{
             display:flex;
             flex-wrap:wrap;
@@ -103,11 +99,12 @@
 
         .stat-card{
             background:white;
-            width:250px;
+            width:260px;
             padding:30px;
             border-radius:15px;
             box-shadow:0 10px 25px rgba(0,0,0,0.08);
             transition:0.3s;
+            text-align:center;
         }
 
         .stat-card:hover{
@@ -120,48 +117,40 @@
         }
 
         .stat-number{
-            font-size:28px;
+            font-size:22px;
             font-weight:bold;
         }
 
-        .action-cards{
-            display:flex;
-            flex-wrap:wrap;
-            gap:25px;
-            justify-content:center;
+        /* ===== TABLE ===== */
+        .table-section{
+            margin-top:30px;
         }
 
-        .action-card{
+        .table-section h2{
+            margin-bottom:15px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
             background:white;
-            width:260px;
-            padding:30px;
-            border-radius:15px;
-            box-shadow:0 8px 20px rgba(0,0,0,0.08);
-            transition:0.3s;
+            border-radius:10px;
+            overflow:hidden;
         }
 
-        .action-card:hover{
-            transform:translateY(-6px);
-        }
-
-        .action-card h3{
-            margin-bottom:20px;
-            color:#ff6600;
-        }
-
-        .action-card a{
-            display:inline-block;
-            padding:10px 18px;
-            border-radius:8px;
-            text-decoration:none;
-            font-weight:bold;
+        thead{
             background:black;
             color:white;
-            transition:0.3s;
         }
 
-        .action-card a:hover{
-            background:#ff6600;
+        th, td{
+            padding:12px;
+            text-align:center;
+            border-bottom:1px solid #eee;
+        }
+
+        tbody tr:hover{
+            background:#f2f2f2;
         }
 
         /* ===== DARK MODE ===== */
@@ -170,23 +159,27 @@
             color:white;
         }
 
-        .dark-mode .stat-card,
-        .dark-mode .action-card{
+        .dark-mode .stat-card{
+            background:#1e1e1e;
+        }
+
+        .dark-mode table{
             background:#1e1e1e;
             color:white;
         }
 
+        .dark-mode thead{
+            background:#ff6600;
+        }
+
         /* ===== MOBILE ===== */
         @media(max-width:768px){
-            header{
-                flex-direction:column;
-                align-items:flex-start;
-                gap:10px;
+            .stat-card{
+                width:100%;
             }
 
-            .stat-card,
-            .action-card{
-                width:100%;
+            table{
+                font-size:13px;
             }
         }
     </style>
@@ -196,12 +189,12 @@
 
 <header>
     <div class="logo-section">
-        <img src="images/img8.jpeg" class="logo">
-        <h1 id="dashboardTitle">ADMIN DASHBOARD</h1>
+        <img src="/images/img8.jpeg" class="logo">
+        <h2 id="dashboardTitle">ADMIN DASHBOARD</h2>
     </div>
 
     <div class="top-buttons">
-        <button onclick="switchLanguage('en')">English</button>
+        <button onclick="switchLanguage('en')">EN</button>
         <button onclick="switchLanguage('mr')">मराठी</button>
         <button onclick="toggleDarkMode()" class="dark-btn">Dark</button>
         <a th:href="@{/}" >Home</a>
@@ -211,54 +204,79 @@
 
 <div class="container">
 
-    <h2 id="welcomeText">Welcome, Organiser</h2>
-
-    <!-- STATISTICS -->
+    <!-- ===== STATISTICS ===== -->
     <div class="dashboard-cards">
 
         <div class="stat-card">
             <h3>Total Racers</h3>
-            <div class="stat-number" id="racerCount"
+            <div class="stat-number"
                  th:text="${totalRacers}">0</div>
         </div>
 
         <div class="stat-card">
             <h3>Total Groups</h3>
+
             <div class="stat-number"
-                 th:text="${totalGroups}">0</div>
+                 th:if="${totalGroups > 0}"
+                 th:text="${totalGroups}">
+            </div>
+
+            <div class="stat-number"
+                 th:if="${totalGroups == 0}">
+                Yet to be generated
+            </div>
         </div>
 
         <div class="stat-card">
             <h3>Today's Registrations</h3>
             <div class="stat-number"
-                 th:text="${todayRegistrations}">0</div>
+                 th:text="${#lists.size(todayRacers)}">0</div>
         </div>
 
     </div>
 
-    <!-- ACTIONS -->
-    <div class="action-cards">
+    <!-- ===== TODAY TABLE ===== -->
+    <div class="table-section">
 
-        <div class="action-card">
-            <h3>View All Racers</h3>
-            <a th:href="@{/admin/racers}">Open</a>
+        <h2>Today's Registered Racers</h2>
+
+        <div th:if="${#lists.isEmpty(todayRacers)}"
+             style="padding:15px;background:white;border-radius:10px;">
+            No registrations today.
         </div>
 
-        <div class="action-card">
-            <h3>Manage Groups</h3>
-            <a th:href="@{/admin/groups}">Open</a>
+        <div th:if="${!#lists.isEmpty(todayRacers)}"
+             style="overflow-x:auto;">
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Registration No</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Village</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="racer : ${todayRacers}">
+                    <td th:text="${racer.registrationNumber}"></td>
+                    <td th:text="${racer.racerName}"></td>
+                    <td th:text="${racer.phoneNumber}"></td>
+                    <td th:text="${racer.village}"></td>
+                </tr>
+                </tbody>
+            </table>
+
         </div>
 
     </div>
 
 </div>
 
-<footer style="text-align:center;padding:20px;background:black;color:white;margin-top:40px;">
-    © 2026 BullRunPro
-</footer>
-
 <script>
-    /* ===== DARK MODE SAVE ===== */
+
+    /* DARK MODE SAVE */
     if(localStorage.getItem("darkMode") === "enabled"){
         document.body.classList.add("dark-mode");
     }
@@ -272,30 +290,13 @@
         }
     }
 
-    /* ===== ANIMATED COUNTER ===== */
-    let counter = document.getElementById("racerCount");
-    let target = parseInt(counter.innerText);
-    let count = 0;
-    let speed = 20;
-
-    let updateCounter = setInterval(()=>{
-        count += Math.ceil(target/50);
-        if(count >= target){
-            counter.innerText = target;
-            clearInterval(updateCounter);
-        }else{
-            counter.innerText = count;
-        }
-    },speed);
-
-    /* ===== LANGUAGE SAVE ===== */
+    /* LANGUAGE SWITCH */
     function switchLanguage(lang){
         localStorage.setItem("language", lang);
+
         if(lang === 'mr'){
             document.getElementById("dashboardTitle").innerText =
             "प्रशासक डॅशबोर्ड";
-            document.getElementById("welcomeText").innerText =
-            "स्वागत आहे, आयोजक";
         } else {
             location.reload();
         }
@@ -304,6 +305,7 @@
     if(localStorage.getItem("language") === "mr"){
         switchLanguage("mr");
     }
+
 </script>
 
 </body>

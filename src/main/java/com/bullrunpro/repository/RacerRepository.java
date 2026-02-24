@@ -2,6 +2,8 @@ package com.bullrunpro.repository;
 
 import com.bullrunpro.entity.Racer;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.time.LocalDate;
 import java.util.List;
 
 public interface RacerRepository extends JpaRepository<Racer, Long> {
@@ -14,4 +16,8 @@ public interface RacerRepository extends JpaRepository<Racer, Long> {
 
     // 🔥 Registration order (first registered first)
     List<Racer> findAllByOrderByIdAsc();
+
+    long countByGroupNumberIsNotNull();
+
+    List<Racer> findByRegistrationDate(LocalDate registrationDate);
 }
