@@ -205,19 +205,17 @@
             Group [[${group.key}]]
         </div>
 
-        <table border="1">
+        <table>
             <tr>
                 <th>Registration No</th>
                 <th>Name</th>
-                <th>Phone</th>
-                <th>Village</th>
+                <th>Mobile</th>
             </tr>
 
-            <tr th:each="racer : ${racers}">
+            <tr th:each="racer : ${group.value}">
                 <td th:text="${racer.registrationNumber}"></td>
                 <td th:text="${racer.racerName}"></td>
                 <td th:text="${racer.phoneNumber}"></td>
-                <td th:text="${racer.village}"></td>
             </tr>
         </table>
 
