@@ -28,19 +28,29 @@ public class AdminController {
 
     // ================= DASHBOARD =================
     @GetMapping("/admin/dashboard")
-    public String dashboard(Model model){
+    public String dashboard(Model model) {
 
+        // Total racers
         long totalRacers = racerRepository.count();
-        long totalGroups = racerRepository.countByGroupNumberIsNotNull();
 
-        List<Racer> todayRacers =
-                racerRepository.findByRegistrationDate(LocalDate.now());
+        // Total groups (distinct group numbers)
+        long totalGroups = racerRepository.findAll().stream()
+                .map(Racer::getGroupNumber)
+                .filter(g -> g != null)
+                .distinct()
+                .count();
+
+        // Today's racers
+        LocalDate today = LocalDate.now();
+
+        List<Racer> todayRacers = racerRepository
+                .findByRegistrationDate(today);
 
         model.addAttribute("totalRacers", totalRacers);
         model.addAttribute("totalGroups", totalGroups);
         model.addAttribute("todayRacers", todayRacers);
 
-        return "admin/dashboard";
+        return "admin-dashboard"; // your html file name
     }
 
     // ================= VIEW RACERS =================

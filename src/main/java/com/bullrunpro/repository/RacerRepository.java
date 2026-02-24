@@ -17,7 +17,8 @@ public interface RacerRepository extends JpaRepository<Racer, Long> {
     // 🔥 Registration order (first registered first)
     List<Racer> findAllByOrderByIdAsc();
 
-    long countByGroupNumberIsNotNull();
+    List<Racer> findAllByOrderByCreatedAtAsc();   // Oldest first
+    List<Racer> findAllByOrderByCreatedAtDesc();  // Newest first
 
     List<Racer> findByRegistrationDate(LocalDate registrationDate);
 }
