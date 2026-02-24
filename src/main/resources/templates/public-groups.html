@@ -143,21 +143,20 @@
         (<span th:text="${#lists.size(entry.value)}"></span> Racers)
     </h2>
 
-    <table>
-        <thead>
+    <table border="1">
         <tr>
-            <th>Registration Number</th>
-            <th>Racer Name</th>
-            <th>Mobile Number</th>
+            <th>Registration No</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Village</th>
         </tr>
-        </thead>
-        <tbody>
-        <tr th:each="racer : ${entry.value}">
+
+        <tr th:each="racer : ${racers}">
             <td th:text="${racer.registrationNumber}"></td>
             <td th:text="${racer.racerName}"></td>
             <td th:text="${racer.phoneNumber}"></td>
+            <td th:text="${racer.village}"></td>
         </tr>
-        </tbody>
     </table>
 
 </div>

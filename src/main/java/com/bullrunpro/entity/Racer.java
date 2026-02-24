@@ -9,33 +9,29 @@ public class Racer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Auto Registration Number
     @Column(unique = true)
-    private String regNo;
+    private String registrationNumber;   // ✅ change here
 
     private String racerName;
     private String phoneNumber;
     private String village;
 
-    // Payment Details
     private String paymentId;
     private String orderId;
     private String signature;
 
-    // Group Management
     private Integer groupNumber;
 
-    private Boolean groupsPublished = false;
+    private boolean groupsPublished = false;
+    private boolean withdrawn = false;
 
-    private Boolean withdrawn = false;
-
-    // ================= GETTERS SETTERS =================
+    // ===== GETTERS & SETTERS =====
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getRegNo() { return regNo; }
-    public void setRegNo(String regNo) { this.regNo = regNo; }
+    public String getRegistrationNumber() { return registrationNumber; }
+    public void setRegistrationNumber(String registrationNumber) { this.registrationNumber = registrationNumber; }
 
     public String getRacerName() { return racerName; }
     public void setRacerName(String racerName) { this.racerName = racerName; }
@@ -58,9 +54,9 @@ public class Racer {
     public Integer getGroupNumber() { return groupNumber; }
     public void setGroupNumber(Integer groupNumber) { this.groupNumber = groupNumber; }
 
-    public Boolean getGroupsPublished() { return groupsPublished; }
-    public void setGroupsPublished(Boolean groupsPublished) { this.groupsPublished = groupsPublished; }
+    public boolean isGroupsPublished() { return groupsPublished; }
+    public void setGroupsPublished(boolean groupsPublished) { this.groupsPublished = groupsPublished; }
 
-    public Boolean getWithdrawn() { return withdrawn; }
-    public void setWithdrawn(Boolean withdrawn) { this.withdrawn = withdrawn; }
+    public boolean isWithdrawn() { return withdrawn; }
+    public void setWithdrawn(boolean withdrawn) { this.withdrawn = withdrawn; }
 }
