@@ -1,162 +1,86 @@
-
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Sports Event Registration | BullRunPro</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <style>
-        body{
-            margin:0;
-            font-family:Arial;
-            background:url('/images/background.jpg') no-repeat center center fixed;
-            background-size:cover;
-        }
-        .container{
-            display:flex;
-            flex-direction:column;
-            align-items:center;
-            justify-content:center;
-            min-height:100vh;
-        }
-        .form-box{
-            background:rgba(255,255,255,0.95);
-            padding:30px;
-            border-radius:15px;
-            width:400px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.3);
-        }
-        input{
-            width:100%;
-            padding:10px;
-            margin:8px 0;
-            border-radius:8px;
-            border:1px solid #ccc;
-        }
-        .pay-btn{
-            width:100%;
-            padding:10px;
-            margin-top:15px;
-            border:none;
-            border-radius:8px;
-            background:#ff6600;
-            color:white;
-            cursor:pointer;
-        }
-        .pay-btn:hover{
-            background:#e65c00;
-        }
-        .home-btn{
-            display:block;
-            margin-top:12px;
-            padding:10px;
-            border-radius:8px;
-            text-decoration:none;
-            font-weight:bold;
-            background:#444;
-            color:white;
-            text-align:center;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container">
-
-    <div class="form-box">
-
-        <h2>Event Registration</h2>
-
-        <form id="registrationForm"
-              th:action="@{/saveRacer}"
-              th:object="${racer}"
-              method="post">
-
-            <input type="text" th:field="*{racerName}" id="racerName" placeholder="Participant Name" required>
-            <input type="tel" th:field="*{phoneNumber}" id="phoneNumber" placeholder="Phone Number" required>
-            <input type="text" th:field="*{village}" id="village" placeholder="Village" required>
-
-            <label>
-                <input type="checkbox" id="agreeTerms" required>
-                I agree that this payment is for registration only.
-            </label>
-
-            <button type="button" class="pay-btn" onclick="payNow()">Pay ₹15 & Register</button>
-
-            <a th:href="@{/}" class="home-btn">🏠 Back to Home</a>
-
-        </form>
-    </div>
-</div>
-
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
     function payNow(){
 
-    let name=document.getElementById("racerName").value.trim();
-    let phone=document.getElementById("phoneNumber").value.trim();
-    let village=document.getElementById("village").value.trim();
-    let terms=document.getElementById("agreeTerms").checked;
+        let name = document.getElementById("racerName").value.trim();
+        let phone = document.getElementById("phoneNumber").value.trim();
+        let village = document.getElementById("village").value.trim();
+        let terms = document.getElementById("agreeTerms").checked;
 
-    if(!name||!phone||!village){
-    alert("Fill all fields");
-    return;
-    }
-    if(phone.length!==10){
-    alert("Phone must be 10 digits");
-    return;
-    }
-    if(!terms){
-    alert("Accept terms");
-    return;
-    }
+        if(!name || !phone || !village){
+            alert("Fill all fields");
+            return;
+        }
 
-    fetch("/create-order",{method:"POST"})
-    .then(res=>res.json())
-    .then(order=>{
+        if(phone.length !== 10){
+            alert("Phone must be 10 digits");
+            return;
+        }
 
-    var options={
-    key:"rzp_test_SJJU7HTqnGA6VF",
-    amount:order.amount,
-    currency:"INR",
-    name:"Bull Run Pro",
-    description:"Registration Fee",
-    order_id:order.id,
+        if(!terms){
+            alert("Accept terms");
+            return;
+        }
 
-    handler:function(response){
+        fetch("/create-order", { method:"POST" })
+        .then(res => res.json())
+        .then(order => {
 
-    let form=document.getElementById("registrationForm");
+            var options = {
 
-    let p1=document.createElement("input");
-    p1.type="hidden";
-    p1.name="paymentId";
-    p1.value=response.razorpay_payment_id;
-    form.appendChild(p1);
+                // 🔴 VERY IMPORTANT: PUT YOUR LIVE KEY HERE
+                key: "rzp_live_SK6h49R5C0Hihf",
 
-    let p2=document.createElement("input");
-    p2.type="hidden";
-    p2.name="orderId";
-    p2.value=response.razorpay_order_id;
-    form.appendChild(p2);
+                amount: order.amount,
+                currency: "INR",
+                name: "Bull Run Pro",
+                description: "Registration Fee",
+                order_id: order.id,
 
-    let p3=document.createElement("input");
-    p3.type="hidden";
-    p3.name="signature";
-    p3.value=response.razorpay_signature;
-    form.appendChild(p3);
+                handler: function(response){
 
-    form.submit();
-    }
-    };
+                    let form = document.getElementById("registrationForm");
 
-    var rzp=new Razorpay(options);
-    rzp.open();
+                    let p1 = document.createElement("input");
+                    p1.type = "hidden";
+                    p1.name = "paymentId";
+                    p1.value = response.razorpay_payment_id;
+                    form.appendChild(p1);
 
-    });
+                    let p2 = document.createElement("input");
+                    p2.type = "hidden";
+                    p2.name = "orderId";
+                    p2.value = response.razorpay_order_id;
+                    form.appendChild(p2);
+
+                    let p3 = document.createElement("input");
+                    p3.type = "hidden";
+                    p3.name = "signature";
+                    p3.value = response.razorpay_signature;
+                    form.appendChild(p3);
+
+                    form.submit();
+                },
+
+                // ✅ Added prefill (important for live mode)
+                prefill: {
+                    name: name,
+                    contact: phone
+                },
+
+                theme: {
+                    color: "#ff6600"
+                }
+            };
+
+            var rzp = new Razorpay(options);
+            rzp.open();
+
+        })
+        .catch(error => {
+            console.error("Order creation failed:", error);
+            alert("Unable to initiate payment. Try again.");
+        });
     }
 </script>
-
-</body>
-</html>

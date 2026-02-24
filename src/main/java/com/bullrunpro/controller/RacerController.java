@@ -69,4 +69,15 @@ public class RacerController {
         model.addAttribute("racers", racerRepository.findAll());
         return "racers";
     }
+
+    // Webhook Controller
+
+    @PostMapping("/razorpay/webhook")
+    @ResponseBody
+    public void webhookHandler(@RequestBody String payload) {
+
+        System.out.println("Webhook received");
+
+        // You can verify signature here later
+    }
 }
