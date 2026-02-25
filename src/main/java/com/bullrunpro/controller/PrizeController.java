@@ -34,18 +34,20 @@ public class PrizeController {
     }
 
     // ADD PRIZE
-    @PostMapping("/admin/add-prize")
-    public String addPrize(@RequestParam String prizeName,
-                           @RequestParam String prizeAmount,
-                           @RequestParam MultipartFile image,
-                           @RequestParam String note) throws IOException {
+    @PostMapping("/admin/prize-chart")
+    public String savePrize(
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("image") MultipartFile image
+    ) throws IOException {
 
         Prize prize = new Prize();
-        prize.setPrizeName(prizeName);
-        prize.setPrizeAmount(prizeAmount);
-        prize.setImage(image.getBytes());
-        prize.setImageType(image.getContentType());
-        prize.setNote(note);
+        prize.setTitle(title);
+        prize.setDescription(description);
+
+        if (!image.isEmpty()) {
+            prize.setImage(image.getBytes());
+        }
 
         prizeRepository.save(prize);
 

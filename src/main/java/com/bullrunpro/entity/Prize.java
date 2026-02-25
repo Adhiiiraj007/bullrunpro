@@ -13,6 +13,7 @@ public class Prize {
     private String prizeAmount;
 
     @Lob
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] image;
 
     private String imageType;
@@ -22,7 +23,11 @@ public class Prize {
     @Column(length = 1000)
     private String note;
 
-    // Getters & Setters
+    // ================= GETTERS & SETTERS =================
+
+    public Long getId() {
+        return id;
+    }
 
     public String getPrizeName() {
         return prizeName;
@@ -32,18 +37,43 @@ public class Prize {
         this.prizeName = prizeName;
     }
 
+    public String getPrizeAmount() {
+        return prizeAmount;
+    }
+
     public void setPrizeAmount(String prizeAmount) {
+        this.prizeAmount = prizeAmount;
     }
 
-    public void setImage(byte[] bytes) {
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setImageType(String contentType) {
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
+
+    public String getNote() {
+        return note;
     }
 
     public void setNote(String note) {
-    }
-
-    public void setPublished(boolean b) {
+        this.note = note;
     }
 }
