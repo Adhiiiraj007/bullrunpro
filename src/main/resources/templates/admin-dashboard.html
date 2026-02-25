@@ -1,311 +1,201 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Admin Dashboard | BullRunPro</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Bull Run Pro</title>
+    <meta charset="UTF-8">
 
     <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Segoe UI', sans-serif;
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #111 60%, #ff6600 40%);
+            min-height: 100vh;
         }
 
-        body{
-            background:#f4f4f4;
-            transition:0.4s ease;
+        .header {
+            background: black;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
-        /* ===== HEADER ===== */
-        header{
-            position:sticky;
-            top:0;
-            z-index:1000;
-            background:#000;
-            color:white;
-            padding:12px 20px;
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            flex-wrap:wrap;
-            box-shadow:0 4px 15px rgba(0,0,0,0.4);
+        .header h2 {
+            margin: 0;
+            color: #ff6600;
         }
 
-        .logo-section{
-            display:flex;
-            align-items:center;
-            gap:10px;
+        .top-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
-        .logo{
-            width:45px;
-            height:45px;
-            border-radius:50%;
-            border:2px solid orange;
+        .lang-btn {
+            background: white;
+            color: black;
+            padding: 6px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
         }
 
-        .top-buttons{
-            display:flex;
-            gap:10px;
-            flex-wrap:wrap;
+        .logout-btn {
+            background: red;
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
         }
 
-        .top-buttons button,
-        .top-buttons a{
-            font-size:13px;
-            padding:7px 14px;
-            border-radius:25px;
-            border:2px solid white;
-            cursor:pointer;
-            text-decoration:none;
-            background:white;
-            color:black;
-            font-weight:bold;
-            transition:0.3s;
+        .logout-btn:hover {
+            background: darkred;
         }
 
-        .top-buttons button:hover,
-        .top-buttons a:hover{
-            background:orange;
-            border-color:orange;
+        .container {
+            padding: 60px 30px;
+            display: flex;
+            justify-content: center;
         }
 
-        .admin-btn{
-            background:orange !important;
-            border-color:orange !important;
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1000px;
         }
 
-        .dark-btn{
-            background:black !important;
-            color:white !important;
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            transition: 0.3s;
         }
 
-        /* ===== CONTAINER ===== */
-        .container{
-            width:90%;
-            max-width:1200px;
-            margin:40px auto;
+        .card:hover {
+            transform: translateY(-5px);
         }
 
-        /* ===== STAT CARDS ===== */
-        .dashboard-cards{
-            display:flex;
-            flex-wrap:wrap;
-            gap:25px;
-            justify-content:center;
-            margin-bottom:40px;
+        .card h3 {
+            margin-bottom: 20px;
+            color: #ff6600;
         }
 
-        .stat-card{
-            background:white;
-            width:260px;
-            padding:30px;
-            border-radius:15px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.08);
-            transition:0.3s;
-            text-align:center;
+        .card button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(45deg, #ff6600, #ff8533);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
         }
 
-        .stat-card:hover{
-            transform:translateY(-8px);
+        .card button:hover {
+            background: black;
+            color: #ff6600;
         }
 
-        .stat-card h3{
-            color:#ff6600;
-            margin-bottom:15px;
-        }
-
-        .stat-number{
-            font-size:22px;
-            font-weight:bold;
-        }
-
-        /* ===== TABLE ===== */
-        .table-section{
-            margin-top:30px;
-        }
-
-        .table-section h2{
-            margin-bottom:15px;
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
-            border-radius:10px;
-            overflow:hidden;
-        }
-
-        thead{
-            background:black;
-            color:white;
-        }
-
-        th, td{
-            padding:12px;
-            text-align:center;
-            border-bottom:1px solid #eee;
-        }
-
-        tbody tr:hover{
-            background:#f2f2f2;
-        }
-
-        /* ===== DARK MODE ===== */
-        .dark-mode{
-            background:#121212;
-            color:white;
-        }
-
-        .dark-mode .stat-card{
-            background:#1e1e1e;
-        }
-
-        .dark-mode table{
-            background:#1e1e1e;
-            color:white;
-        }
-
-        .dark-mode thead{
-            background:#ff6600;
-        }
-
-        /* ===== MOBILE ===== */
-        @media(max-width:768px){
-            .stat-card{
-                width:100%;
-            }
-
-            table{
-                font-size:13px;
-            }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: white;
+            font-size: 14px;
         }
     </style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo-section">
-        <img src="/images/img8.jpeg" class="logo">
-        <h2 id="dashboardTitle">ADMIN DASHBOARD</h2>
-    </div>
+<div class="header">
+    <h2 id="adminTitle">🏁 Bull Run Pro - Admin</h2>
 
-    <div class="top-buttons">
-        <button onclick="switchLanguage('en')">EN</button>
-        <button onclick="switchLanguage('mr')">मराठी</button>
-        <button onclick="toggleDarkMode()" class="dark-btn">Dark</button>
-        <a th:href="@{/}" >Home</a>
-        <a th:href="@{/logout}" class="admin-btn">Logout</a>
+    <div class="top-actions">
+        <button class="lang-btn" onclick="switchLanguage('en')">English</button>
+        <button class="lang-btn" onclick="switchLanguage('mr')">मराठी</button>
+        <a th:href="@{/logout}" class="logout-btn" id="logoutBtn">Logout</a>
     </div>
-</header>
+</div>
 
 <div class="container">
+    <div class="dashboard-grid">
 
-    <!-- ===== STATISTICS ===== -->
-    <div class="dashboard-cards">
-
-        <div class="stat-card">
-            <h3>Total Racers</h3>
-            <div class="stat-number"
-                 th:text="${totalRacers}">0</div>
+        <!-- View Racers -->
+        <div class="card">
+            <h3 id="racersTitle">👥 View Racers</h3>
+            <a th:href="@{/admin/racers}">
+                <button id="racersBtn">Open Racers List</button>
+            </a>
         </div>
 
-        <div class="stat-card">
-            <h3>Total Groups</h3>
-
-            <div class="stat-number"
-                 th:if="${totalGroups > 0}"
-                 th:text="${totalGroups}">
-            </div>
-
-            <div class="stat-number"
-                 th:if="${totalGroups == 0}">
-                Yet to be generated
-            </div>
+        <!-- Groups Management -->
+        <div class="card">
+            <h3 id="groupsTitle">🎯 Groups Management</h3>
+            <a th:href="@{/admin/groups}">
+                <button id="groupsBtn">Go To Groups Page</button>
+            </a>
         </div>
 
-        <div class="stat-card">
-            <h3>Today's Registrations</h3>
-            <div class="stat-number"
-                 th:text="${#lists.size(todayRacers)}">0</div>
+        <!-- Admin Prize Chart -->
+        <div class="card">
+            <h3 id="prizeTitle">🏆 Prize Chart</h3>
+            <a th:href="@{/admin/prize-chart}">
+                <button id="prizeBtn">Manage Prize Chart</button>
+            </a>
         </div>
 
     </div>
+</div>
 
-    <!-- ===== TODAY TABLE ===== -->
-    <div class="table-section">
-
-        <h2>Today's Registered Racers</h2>
-
-        <div th:if="${#lists.isEmpty(todayRacers)}"
-             style="padding:15px;background:white;border-radius:10px;">
-            No registrations today.
-        </div>
-
-        <div th:if="${!#lists.isEmpty(todayRacers)}"
-             style="overflow-x:auto;">
-
-            <table>
-                <thead>
-                <tr>
-                    <th>Registration No</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Village</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr th:each="racer : ${todayRacers}">
-                    <td th:text="${racer.registrationNumber}"></td>
-                    <td th:text="${racer.racerName}"></td>
-                    <td th:text="${racer.phoneNumber}"></td>
-                    <td th:text="${racer.village}"></td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-    </div>
-
+<div class="footer" id="footerText">
+    Admin Panel | Bull Run Pro
 </div>
 
 <script>
-
-    /* DARK MODE SAVE */
-    if(localStorage.getItem("darkMode") === "enabled"){
-        document.body.classList.add("dark-mode");
-    }
-
-    function toggleDarkMode(){
-        document.body.classList.toggle("dark-mode");
-        if(document.body.classList.contains("dark-mode")){
-            localStorage.setItem("darkMode","enabled");
-        }else{
-            localStorage.setItem("darkMode","disabled");
-        }
-    }
-
-    /* LANGUAGE SWITCH */
     function switchLanguage(lang){
-        localStorage.setItem("language", lang);
 
         if(lang === 'mr'){
-            document.getElementById("dashboardTitle").innerText =
-            "प्रशासक डॅशबोर्ड";
+
+            document.getElementById("adminTitle").innerText =
+            "🏁 बुल रन प्रो - प्रशासक";
+
+            document.getElementById("racersTitle").innerText =
+            "👥 स्पर्धक पहा";
+
+            document.getElementById("racersBtn").innerText =
+            "स्पर्धक यादी उघडा";
+
+            document.getElementById("groupsTitle").innerText =
+            "🎯 गट व्यवस्थापन";
+
+            document.getElementById("groupsBtn").innerText =
+            "गट पृष्ठावर जा";
+
+            document.getElementById("prizeTitle").innerText =
+            "🏆 बक्षीस यादी";
+
+            document.getElementById("prizeBtn").innerText =
+            "बक्षीस यादी व्यवस्थापित करा";
+
+            document.getElementById("logoutBtn").innerText =
+            "बाहेर पडा";
+
+            document.getElementById("footerText").innerText =
+            "प्रशासक पॅनेल | बुल रन प्रो";
+
         } else {
             location.reload();
         }
     }
-
-    if(localStorage.getItem("language") === "mr"){
-        switchLanguage("mr");
-    }
-
 </script>
 
 </body>

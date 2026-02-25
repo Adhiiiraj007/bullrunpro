@@ -22,12 +22,10 @@
             overflow:hidden;
         }
 
-        /* DARK MODE */
         body.dark{
             background:linear-gradient(135deg,#000 60%,#333 40%);
         }
 
-        /* GLOW EFFECT */
         body::before{
             content:"";
             position:absolute;
@@ -41,7 +39,6 @@
             z-index:-1;
         }
 
-        /* TOP BUTTONS */
         .top-left{
             position:absolute;
             top:20px;
@@ -53,7 +50,7 @@
             top:20px;
             right:20px;
             display:flex;
-            gap:8px;
+            gap:10px;
         }
 
         .nav-btn{
@@ -72,23 +69,65 @@
             color:#ff6600;
         }
 
-        .toggle-mode{
-            background:white;
+        /* DARK MODE BUTTON */
+        .dark-btn{
+            background:black;
+            color:#ff6600;
             border:none;
-            padding:6px 10px;
-            border-radius:5px;
+            padding:6px 12px;
+            border-radius:20px;
             cursor:pointer;
             font-size:12px;
             font-weight:bold;
             transition:0.3s;
         }
 
-        .toggle-mode:hover{
+        .dark-btn:hover{
             background:#ff6600;
             color:white;
         }
 
-        /* LOGIN CARD */
+        /* ENGLISH BUTTON */
+        .en-btn{
+            background:#1e90ff;
+            color:white;
+            border:none;
+            padding:6px 12px;
+            border-radius:20px;
+            cursor:pointer;
+            font-size:12px;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .en-btn:hover{
+            background:white;
+            color:#1e90ff;
+        }
+
+        /* MARATHI BUTTON */
+        .mr-btn{
+            background:#28a745;
+            color:white;
+            border:none;
+            padding:6px 12px;
+            border-radius:20px;
+            cursor:pointer;
+            font-size:12px;
+            font-weight:bold;
+            transition:0.3s;
+        }
+
+        .mr-btn:hover{
+            background:white;
+            color:#28a745;
+        }
+
+        .active-lang{
+            box-shadow:0 0 10px white;
+            transform:scale(1.05);
+        }
+
         .login-card{
             width:380px;
             padding:45px 35px;
@@ -152,13 +191,7 @@
             margin-bottom:15px;
         }
 
-        .remember label{
-            display:flex;
-            align-items:center;
-            gap:5px;
-        }
-
-        button{
+        button.login-btn{
             width:100%;
             padding:12px;
             background:linear-gradient(45deg,#ff6600,#ff8533);
@@ -170,19 +203,9 @@
             transition:0.3s;
         }
 
-        button:hover{
+        button.login-btn:hover{
             background:black;
             color:#ff6600;
-        }
-
-        .forgot{
-            margin-top:12px;
-            font-size:13px;
-        }
-
-        .forgot a{
-            color:#fff;
-            text-decoration:underline;
         }
 
         .error{
@@ -218,9 +241,9 @@
 </div>
 
 <div class="top-right">
-    <button class="toggle-mode" onclick="toggleMode()">🌙</button>
-    <button class="toggle-mode" onclick="switchLang('en')">EN</button>
-    <button class="toggle-mode" onclick="switchLang('mr')">मराठी</button>
+    <button class="dark-btn" onclick="toggleMode()">🌙</button>
+    <button class="en-btn" id="enBtn" onclick="switchLang('en')">EN</button>
+    <button class="mr-btn" id="mrBtn" onclick="switchLang('mr')">मराठी</button>
 </div>
 
 <div class="login-card">
@@ -238,7 +261,6 @@
     </div>
 
     <form th:action="@{/login}" method="post">
-
         <input type="text" name="username" placeholder="Username" id="userField" required>
 
         <div class="password-wrapper">
@@ -251,74 +273,57 @@
                 <input type="checkbox" name="remember-me">
                 <span id="rememberText">Remember Me</span>
             </label>
-            <a href="#" id="forgotText">Forgot?</a>
         </div>
 
-        <button type="submit" id="loginBtn">Login</button>
+        <button type="submit" class="login-btn" id="loginBtn">Login</button>
     </form>
 
-    <div class="forgot">
-        <small id="adminOnly">Admin Access Only</small>
-    </div>
+    <small id="adminOnly">Admin Access Only</small>
 
 </div>
 
 <script>
 
-    /* PASSWORD TOGGLE */
     function togglePassword(){
         let pass=document.getElementById("passField");
-        let toggle=document.querySelector(".show-pass");
-        if(pass.type==="password"){
-            pass.type="text";
-            toggle.innerText="Hide";
-        }else{
-            pass.type="password";
-            toggle.innerText="Show";
-        }
+        pass.type = pass.type==="password" ? "text" : "password";
     }
 
-    /* DARK MODE SAVE */
     if(localStorage.getItem("darkMode")==="enabled"){
         document.body.classList.add("dark");
     }
 
     function toggleMode(){
         document.body.classList.toggle("dark");
-        if(document.body.classList.contains("dark")){
-            localStorage.setItem("darkMode","enabled");
-        }else{
-            localStorage.setItem("darkMode","disabled");
-        }
+        localStorage.setItem("darkMode",
+            document.body.classList.contains("dark")?"enabled":"disabled");
     }
 
-    /* LANGUAGE SAVE */
     function switchLang(lang){
         localStorage.setItem("language",lang);
 
+        document.getElementById("enBtn").classList.remove("active-lang");
+        document.getElementById("mrBtn").classList.remove("active-lang");
+
         if(lang==='mr'){
+            document.getElementById("mrBtn").classList.add("active-lang");
             document.getElementById("titleText").innerText="प्रशासक लॉगिन";
             document.getElementById("loginBtn").innerText="लॉगिन करा";
             document.getElementById("homeText").innerText="🏠 मुख्यपृष्ठ";
             document.getElementById("rememberText").innerText="मला लक्षात ठेवा";
-            document.getElementById("forgotText").innerText="पासवर्ड विसरलात?";
             document.getElementById("adminOnly").innerText="फक्त प्रशासक प्रवेश";
             document.getElementById("userField").placeholder="वापरकर्ता नाव";
             document.getElementById("passField").placeholder="पासवर्ड";
-
-            if(document.getElementById("errorText"))
-                document.getElementById("errorText").innerText="अवैध वापरकर्ता नाव किंवा पासवर्ड";
-
-            if(document.getElementById("logoutText"))
-                document.getElementById("logoutText").innerText="यशस्वीरित्या लॉगआउट झाले";
         }else{
+            document.getElementById("enBtn").classList.add("active-lang");
             location.reload();
         }
     }
 
-    /* APPLY SAVED LANGUAGE */
     if(localStorage.getItem("language")==="mr"){
         switchLang("mr");
+    }else{
+        document.getElementById("enBtn").classList.add("active-lang");
     }
 
 </script>

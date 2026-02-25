@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Prize Chart | Bull Run Pro</title>
+    <meta charset="UTF-8">
+    <style>
+        body{font-family:'Segoe UI';background:#f8f8f8;margin:0;}
+        header{background:black;color:white;padding:15px;text-align:center;}
+        table{width:90%;margin:40px auto;border-collapse:collapse;background:white;}
+        th,td{padding:12px;border:1px solid #ddd;text-align:center;}
+        th{background:orange;}
+        img{width:80px;height:80px;object-fit:cover;}
+        .note{width:90%;margin:20px auto;padding:15px;background:#fff3cd;}
+        .dark{background:#111;color:white;}
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🏆 Prize Chart</h2>
+    <a href="/" style="color:orange;">Home</a>
+</header>
+
+<table>
+    <tr>
+        <th>Prize Name</th>
+        <th>Amount</th>
+        <th>Image</th>
+    </tr>
+
+    <tr th:each="prize : ${prizes}">
+        <td th:text="${prize.prizeName}"></td>
+        <td th:text="${prize.prizeAmount}"></td>
+        <td>
+            <img th:src="@{'data:' + ${prize.imageType} + ';base64,' +
+${T(java.util.Base64).getEncoder().encodeToString(prize.image)}}" />
+        </td>
+    </tr>
+</table>
+
+<div class="note" th:if="${prizes.size() > 0}">
+    <p th:text="${prizes[0].note}"></p>
+</div>
+
+</body>
+</html>

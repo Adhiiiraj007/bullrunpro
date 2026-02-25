@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Prize Chart</title>
+    <meta charset="UTF-8">
+    <style>
+        body{font-family:'Segoe UI';background:#f5f5f5;margin:0;}
+        header{background:black;color:white;padding:15px;text-align:center;}
+        .container{width:90%;margin:30px auto;}
+        table{width:100%;border-collapse:collapse;background:white;}
+        th,td{padding:10px;border:1px solid #ddd;text-align:center;}
+        th{background:orange;}
+        form input,form textarea{padding:8px;margin:5px;width:100%;}
+        button{padding:8px 15px;background:orange;border:none;color:white;}
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>🏆 Admin Prize Chart</h2>
+    <a th:href="@{/admin/dashboard}" style="color:orange;">Dashboard</a>
+</header>
+
+<div class="container">
+
+    <h3>Add Prize</h3>
+
+    <form th:action="@{/admin/add-prize}" method="post" enctype="multipart/form-data">
+        <input type="text" name="prizeName" placeholder="Prize Name" required>
+        <input type="text" name="prizeAmount" placeholder="Prize Amount" required>
+        <input type="file" name="image" required>
+        <textarea name="note" placeholder="Note Below Prize List"></textarea>
+        <button type="submit">Add Prize</button>
+    </form>
+
+    <br>
+
+    <form th:action="@{/admin/publish-prizes}" method="post">
+        <button>Publish Prize List</button>
+    </form>
+
+    <form th:action="@{/admin/unpublish-prizes}" method="post">
+        <button style="background:red;">Unpublish Prize List</button>
+    </form>
+
+    <br>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+
+        <tr th:each="prize : ${prizes}">
+            <td th:text="${prize.prizeName}"></td>
+            <td th:text="${prize.prizeAmount}"></td>
+            <td th:text="${prize.published ? 'Published' : 'Unpublished'}"></td>
+        </tr>
+
+    </table>
+
+</div>
+</body>
+</html>
