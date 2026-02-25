@@ -26,7 +26,7 @@ public class SecurityConfig {
                                 "/groups",
                                 "/create-order",
                                 "/success",
-                                "/prize-chart",
+                                "/user-prize-chart",
                                 "/css/**",
                                 "/images/**").permitAll()
 
