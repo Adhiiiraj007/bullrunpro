@@ -76,4 +76,10 @@ public class Prize {
     public void setNote(String note) {
         this.note = note;
     }
+
+    public void setTitle(String title) {
+    }
+
+    public void setDescription(String description) {
+    }
 }
