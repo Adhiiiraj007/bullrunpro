@@ -71,4 +71,41 @@ public class PrizeController {
         prizeRepository.saveAll(prizes);
         return "redirect:/admin/prize-chart";
     }
+
+    @PostMapping("/admin/add-prize")
+    public String addPrize(
+            @RequestParam("prizeName") String prizeName,
+            @RequestParam("prizeAmount") String prizeAmount,
+            @RequestParam("note") String note,
+            @RequestParam("image") MultipartFile image
+    ) throws IOException {
+
+        Prize prize = new Prize();
+
+        prize.setPrizeName(prizeName);
+        prize.setPrizeAmount(prizeAmount);
+        prize.setNote(note);
+
+        if (!image.isEmpty()) {
+            prize.setImage(image.getBytes());
+            prize.setImageType(image.getContentType());
+        }
+
+        prize.setPublished(false);
+
+        prizeRepository.save(prize);
+
+        return "redirect:/admin/prize-chart";
+    }
+
+    @GetMapping("/user/prize-chart")
+    public String userPrizeChart(Model model) {
+
+        List<Prize> publishedPrizes =
+                prizeRepository.findByPublishedTrue();
+
+        model.addAttribute("prizes", publishedPrizes);
+
+        return "user-prize-chart";
+    }
 }
