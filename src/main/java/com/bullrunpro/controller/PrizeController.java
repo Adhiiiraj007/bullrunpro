@@ -20,11 +20,7 @@ public class PrizeController {
     }
 
     // USER VIEW
-    @GetMapping("/prize-chart")
-    public String viewPrizeChart(Model model) {
-        model.addAttribute("prizes", prizeRepository.findByPublishedTrue());
-        return "user-prize-chart";
-    }
+
 
     // ADMIN PAGE
     @GetMapping("/admin/prize-chart")

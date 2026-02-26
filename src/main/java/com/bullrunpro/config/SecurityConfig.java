@@ -19,6 +19,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
 
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/",
                                 "/registration",
@@ -26,7 +27,8 @@ public class SecurityConfig {
                                 "/groups",
                                 "/create-order",
                                 "/success",
-                                "/user-prize-chart",
+                                "/prize-chart",   // ✅ FIXED
+                                "/user/**",       // ✅ FIXED
                                 "/css/**",
                                 "/images/**").permitAll()
 
